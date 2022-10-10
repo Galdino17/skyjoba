@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg41813"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="2.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview41815"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="0.23162177"
+     inkscape:cx="-12.95215"
+     inkscape:cy="468.43611"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid20225" />
+  </sodipodi:namedview>
+  <defs
+     id="defs41810">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient20631">
+      <stop
+         style="stop-color:#00ff00;stop-opacity:1;"
+         offset="0"
+         id="stop20627" />
+      <stop
+         style="stop-color:#00ff00;stop-opacity:0;"
+         offset="1"
+         id="stop20629" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient20631"
+       id="radialGradient20633"
+       cx="107.37676"
+       cy="151.35577"
+       fx="107.37676"
+       fy="151.35577"
+       r="104.521"
+       gradientTransform="matrix(1.8080443,-0.01298821,0.0147667,2.0556229,-89.000209,-158.37999)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:url(#radialGradient20633);fill-opacity:1;stroke-width:0.296;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect56853"
+       width="209.04201"
+       height="298.1423"
+       x="2.8557532"
+       y="2.2846136" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:139.22px;line-height:1.25;font-family:Jokerman;-inkscape-font-specification:Jokerman;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.48052"
+       x="142.98828"
+       y="236.68712"
+       id="text44804-4"
+       transform="scale(0.8481288,1.1790662)"><tspan
+         sodipodi:role="line"
+         id="tspan44802-0"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Jokerman;-inkscape-font-specification:Jokerman;stroke-width:3.48052"
+         x="142.98828"
+         y="236.68712">2</tspan></text>
+    <ellipse
+       style="fill:#ffffff;stroke-width:0.274447"
+       id="path1737"
+       cx="51.403877"
+       cy="42.265385"
+       rx="45.69231"
+       ry="38.838459" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:55.4565px;line-height:1.25;font-family:Jokerman;-inkscape-font-specification:Jokerman;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.38642"
+       x="21.369848"
+       y="75.666328"
+       id="text44804-4-2"
+       transform="scale(1.2543152,0.79724777)"><tspan
+         sodipodi:role="line"
+         id="tspan44802-0-6"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Jokerman;-inkscape-font-specification:Jokerman;stroke-width:1.38642"
+         x="21.369848"
+         y="75.666328">2</tspan></text>
+    <rect
+       style="fill:#00ff00;fill-opacity:1;stroke-width:0.296;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke"
+       id="rect20513"
+       width="148.16667"
+       height="31.75"
+       x="21.166666"
+       y="-95.25" />
+    <rect
+       style="fill:#00ff00;fill-opacity:1;stroke-width:0.296;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke"
+       id="rect20515"
+       width="10.583333"
+       height="84.666664"
+       x="296.33334"
+       y="116.41666" />
+  </g>
+</svg>

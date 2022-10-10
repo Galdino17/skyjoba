@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="74.0mm"
+   height="52.0mm"
+   viewBox="0 0 74.0 52.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="skyjo.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview14"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.46324355"
+     inkscape:cx="397.19927"
+     inkscape:cy="214.78982"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs9" />
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffd5d5;stroke-width:0.296;paint-order:fill markers stroke"
+       id="rect66"
+       width="74.25"
+       height="53.11731"
+       x="58.257694"
+       y="83.388458"
+       ry="1.1423068" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.0875px;line-height:1.25;font-family:'Felix Titling';-inkscape-font-specification:'Felix Titling';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75219"
+       x="6.432898"
+       y="28.183283"
+       id="text1038"
+       transform="scale(0.75241205,1.329059)"><tspan
+         sodipodi:role="line"
+         id="tspan1036"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Felix Titling';-inkscape-font-specification:'Felix Titling';stroke-width:0.75219"
+         x="6.432898"
+         y="28.183283">Skyjo</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.0875px;line-height:1.25;font-family:'Felix Titling';-inkscape-font-specification:'Felix Titling';fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:0.75219"
+       x="6.6317649"
+       y="28.410337"
+       id="text1038-6"
+       transform="scale(0.75241205,1.329059)"><tspan
+         sodipodi:role="line"
+         id="tspan1036-4"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Felix Titling';-inkscape-font-specification:'Felix Titling';stroke-width:0.75219;fill:#cccccc"
+         x="6.6317649"
+         y="28.410337">Skyjo</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.0875px;line-height:1.25;font-family:'Felix Titling';-inkscape-font-specification:'Felix Titling';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75219"
+       x="8.1499567"
+       y="28.410336"
+       id="text1038-2"
+       transform="scale(0.75241205,1.329059)"><tspan
+         sodipodi:role="line"
+         id="tspan1036-0"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Felix Titling';-inkscape-font-specification:'Felix Titling';stroke-width:0.75219"
+         x="8.1499567"
+         y="28.410336">Skyjo</tspan></text>
+  </g>
+</svg>
