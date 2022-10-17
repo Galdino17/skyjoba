@@ -1,0 +1,47 @@
+.cartaContainer{
+    perspective:1100; /*Esta propriedade especifica quantos pixels serão usados para renderização do giro 3D*/
+    -webkit-perspective: 1100; /* Chrome, Safari, Opera */
+    float:left;
+    margin:2px;
+    }
+    
+.carta{
+    position:relative;
+    width:5vw;
+    height:10vh;
+    color:#CF0;
+    text-align:center;
+    line-height:200px;
+    margin:5px;
+    transition:all 0.6s ease;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d; /* Chrome, Safari, Opera */
+    
+    }
+
+.cartas:hover{
+    transform:rotateY(180deg);
+    -webkit-transform: rotateY(180deg); /* Chrome, Safari, Opera */ /*Esta propriedade serve para preservar a posição 3D do elemento descendente*/
+    }
+ 
+.rotated {
+    transform:rotateY(180deg);
+    -webkit-transform: rotateY(180deg); /* Chrome, Safari, Opera */ /*Esta propriedade serve para preservar a posição 3D do elemento descendente*/
+      }
+    
+.verso{
+    transform:rotateY(180deg);
+    -webkit-transform: rotateY(180deg); /* Chrome, Safari, Opera */
+}
+
+.frente, .verso{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgb(69, 240, 197);
+    backface-visibility:hidden; /*Essa propriedade faz com que a parte oposta da carta não seja mostrada, caso contrário veria as duas faces, uma justaposta a outra*/
+    -webkit-backface-visibility:hidden; /* Chrome, Safari, Opera */
+    }
+

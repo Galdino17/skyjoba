@@ -1,0 +1,40 @@
+.cartas_tab {
+    width: 20vw;
+    height: 32vh;
+    margin: auto;
+    padding: auto;
+    display: grid;
+    grid-template-columns: 24% 24% 24% 24%;
+    grid-template-rows: 33.3% 33.3% 33.3% ;
+    justify-content: center;
+    perspective: 1000px;
+    border-color: #ff9b2a;
+  
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+  
+  }
+
+.placar {
+    width: 100%;
+    background-color: #ff9b2a;
+    display: flexbox;
+
+    text-align: center;
+
+}
+
+.titulo {
+    background-color: blueviolet;
+    text-align: center;
+}
+
+.naipe {
+    padding: auto;
+    margin: auto;
+    background-color: blue;
+    width: 20vw;
+    height: 43vh;
+}
