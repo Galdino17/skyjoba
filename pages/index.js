@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-//import io from 'Socket.IO-client'
-import io from 'socket.io/node_modules/socket.io-client'
+import io from 'socket.io-client'
 let socket;
 
 const Home = () => {
