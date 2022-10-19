@@ -1,41 +1,46 @@
-import { useEffect, useState } from 'react'
-import io from 'socket.io-client'
+import { useState, useEffect } from 'react'
+
+import Mesa from '../src/componentes/mesa'
+import {SendCarsToServer, GetCarsToServer, LoadCartas} from '../src/lib/baralho'
+import { getDatabase, ref, set, onValue } from "firebase/database";
+
 let socket;
 
 const Home = () => {
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState([])
 
   useEffect(() => {
-    socketInitializer();
     return () => {
-      console.log("This will be logged on unmount");
+      const database = getDatabase();
+        const starCountRef = ref(database, '/');
+        onValue(starCountRef, (snapshot) => {
+          const data = snapshot.val();
+          //setInput([...data])
+          console.log(data)
+          
+        });
+        console.log("jk")
+      
     } 
   });
 
-  const socketInitializer = async () => {
-    await fetch('/api/socket');
-    socket = io()
+  
 
-    socket.on('connect', () => {
-      console.log('connected')
-    })
+ 
 
-    socket.on('update-input', msg => {
-      setInput(msg)
-    })
-  }
-
-  const onChangeHandler = (e) => {
-    setInput(e.target.value)
-    socket.emit('input-change', e.target.value)
-  }
 
   return (
-    <input
-      placeholder="Type something"
-      value={input}
-      onChange={onChangeHandler}
-    />
+    <>
+  <button onClick={() => SendCarsToServer(LoadCartas())}> Enviar  </button>
+  <button onClick={() => GetCarsToServer()}> Receber  </button>
+  <Mesa/>
+  <h1> {input.length} </h1>
+       
+      
+     
+
+      
+    </>
   )
 }
 

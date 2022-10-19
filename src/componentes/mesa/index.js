@@ -1,13 +1,12 @@
-import Naipe from "../src/componentes/naipe"
-import styles from '../styles/cartas.module.css'
-import { getCartas } from "../src/lib/baralho"
+import Naipe from '../naipe'
+import styles from './styles.module.css'
+import { getCartas } from "../../lib/baralho"
 
-export default function Home() {
+export default function Mesa() {
     const array_1 = getCartas()
     const array_2 = getCartas()
     const array_3 = getCartas()
     const array_4 = getCartas()
-    console.log(array_1)
 return (
     <div className={styles.cartaContainer}>
         <Naipe cartas={array_1} jogador={1}/>

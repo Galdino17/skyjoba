@@ -1,0 +1,9 @@
+.coluna{
+    perspective:1100; /*Esta propriedade especifica quantos pixels serão usados para renderização do giro 3D*/
+    -webkit-perspective: 1100; /* Chrome, Safari, Opera */
+    background-color: blueviolet;
+    display: flex;
+    flex-direction: column;
+    margin: 2px;
+    padding: 4px;
+    }
