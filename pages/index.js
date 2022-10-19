@@ -16,7 +16,8 @@ const Home = () => {
         onValue(starCountRef, (snapshot) => {
           const data = snapshot.val();
           //setInput([...data])
-          console.log(data)
+          console.log(data['baralho'][0])
+          console.log("jj")
           
         });
         console.log("jk")

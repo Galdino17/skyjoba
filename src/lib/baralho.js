@@ -20,16 +20,7 @@ export function SendCarsToServer (baralho) {
     console.log('enviado')
 }
 
-export function GetCarsToServer () {
-    
-        const starCountRef = ref(database, '/');
-        onValue(starCountRef, (snapshot) => {
-          const data = snapshot.val();
-          updateStarCount(postElement, data);
-          console.log(data)
-        });
-      
-}
+
 
 function Embaralhar(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -74,7 +65,7 @@ export function LoadCartas(){
         if (carta == 0) carta=carta+1
     }) 
 
-    return baralho  
+    return Embaralhar(baralho)   
 }
 
 export function Populate(baralho, quantidade, valor ){
