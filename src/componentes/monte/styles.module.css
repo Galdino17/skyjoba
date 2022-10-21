@@ -1,0 +1,27 @@
+.cartaContainer{    
+    perspective:1100; /*Esta propriedade especifica quantos pixels serão usados para renderização do giro 3D*/
+    -webkit-perspective: 1100; /* Chrome, Safari, Opera */
+    float:left;
+    }
+    
+.carta{
+    position:relative;
+    width:4vw;
+    height:12vh;
+    transition:all 0.6s ease; 
+    
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d; /* Chrome, Safari, Opera */
+    
+    }
+
+.monte {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+    
+.titulo {
+    background-color: blueviolet;
+    text-align: center;
+}

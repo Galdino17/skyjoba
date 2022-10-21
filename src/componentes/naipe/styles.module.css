@@ -10,7 +10,7 @@
     */
     border-color: #ff9b2a;
     background-color: aquamarine;
-    align-self: center;
+    justify-content: space-around;
   
   
   }
@@ -33,6 +33,6 @@
     padding: auto;
     margin: 10px;
     background-color: blue;
-    width: 20vw;
-    height: 43vh;
+    
+    height: 100%;
 }

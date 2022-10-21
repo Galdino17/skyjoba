@@ -5,17 +5,11 @@ import { getDatabase, ref, set, onValue } from "firebase/database";
 
 const database = getDatabase();
 
-export function SendCarsToServer (baralho) {
+export function SendCarsToServer (path, baralho) {
 
         let Sended_baralho = {baralho}
         
-        set(ref(database, '/'), Sended_baralho)
-        //db.ref('/').set('teste de SAva');
-        // set(ref(db, 'Partida', {
-        //   Partida: 'Primeira Partida',
-        //   Estado: 'teste',
-        //   profile_picture : [1,2,3,4]
-        // }));
+        set(ref(database, '/'+path), Sended_baralho)
       
     console.log('enviado')
 }
@@ -31,11 +25,18 @@ function Embaralhar(array) {
 }
 
 export function getCartas (){
-    let baralho = Embaralhar(LoadCartas())
-    let mao = []
-    
+    const database = getDatabase();
+    let baralho = []
+    const starCountRef = ref(database, '/PartidaTeste');
+        onValue(starCountRef, (snapshot) => {
+          const data = snapshot.val();
+          baralho = data['baralho']
+          
+        });
 
-    const colunas = [...Array(4)]
+    let mao = []
+
+    const colunas = [...Array(4)] //Ajustar
     const coluna = [...Array(3)]
     colunas.map( n=> {
         let coluna_card = []

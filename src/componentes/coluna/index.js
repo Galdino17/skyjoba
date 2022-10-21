@@ -9,7 +9,7 @@ export default function Coluna (props){
 return (
     <div className={styles.coluna} >
  
-        {cartas.map( valor_carta =>(
+        {cartas.map( valor_carta => (
                             <>
                                 <Carta src={valor_carta}/>
                             

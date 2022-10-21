@@ -15,12 +15,9 @@ const Home = () => {
         const starCountRef = ref(database, '/');
         onValue(starCountRef, (snapshot) => {
           const data = snapshot.val();
-          //setInput([...data])
-          console.log(data['baralho'][0])
-          console.log("jj")
+          
           
         });
-        console.log("jk")
       
     } 
   });
@@ -32,10 +29,9 @@ const Home = () => {
 
   return (
     <>
-  <button onClick={() => SendCarsToServer(LoadCartas())}> Enviar  </button>
+  <button onClick={() => SendCarsToServer('PartidaTeste', LoadCartas())}> Enviar  </button>
   <button onClick={() => GetCarsToServer()}> Receber  </button>
   <Mesa/>
-  <h1> {input.length} </h1>
        
       
      

@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import ImageC from "../image"
 import styles from './styles.module.css'
-import io from 'socket.io-client'
+
 let socket;
 
 
@@ -12,10 +12,8 @@ export default function Carta (props){
     const jogador = props.jogador
 
     const clickHandler = () => {
-        let e = 'Jogador: '+props.jogador+' - Valor: '+props.src+' Linha: ? '+'Coluna ?'
         setVirada('frente')
-        socket = io()
-         socket.emit('input-change', e)
+       
        }
     
 
@@ -26,12 +24,30 @@ export default function Carta (props){
         <div className={styles.cartaContainer}>
         <div className={style_carta} onClick={() => clickHandler()}>
             <div className={styles.frente}>
-                <ImageC src="/img/back.svg"/>
+                    <ImageC src="/img/back.svg"/>
             </div>
             <div className={styles.verso} >
                 <ImageC src={"/img/"+props.src+".svg"}/>
             </div>
+            
         </div>
     </div>
+    )
+}
+
+
+export function Verso () {
+    return (
+        <div className={styles.verso}>
+                <ImageC src="/img/back.svg"/>
+        </div>
+    )
+}
+
+export function Frente (props) {
+    return (
+        <div className={styles.carta} >
+                <ImageC src={"/img/"+props.src+".svg"}/>
+            </div>
     )
 }

@@ -1,14 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from './styles.module.css'
 import Coluna from "../coluna";
-import { getCartas } from "../../lib/baralho";
+import { getDatabase, ref, set, onValue } from "firebase/database";
 
 
 export default function Naipe (props){
+    
 
     const cartas = props.cartas
-    
-    console.log("Jogador: "+props.jogador+"Cartas: "+cartas)
 return (
     <div className={styles.naipe} >
         <div className={styles.titulo}> Jogador {props.jogador} </div>
@@ -25,8 +24,8 @@ return (
             }
         </div>
         <div className={styles.placar}>
-            <div>Placar Parcial</div>
-            <div>Placar Total</div>
+            <div>Placar Parcial </div>
+            <div>Placar Total {} </div>
         </div>
     </div>
 )
