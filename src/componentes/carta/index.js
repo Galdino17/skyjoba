@@ -36,15 +36,15 @@ export default function Carta (props){
 }
 
 
-export function Verso () {
+export function Frente () {
     return (
-        <div className={styles.verso}>
+        <div className={styles.frente}>
                 <ImageC src="/img/back.svg"/>
         </div>
     )
 }
 
-export function Frente (props) {
+export function Verso (props) {
     return (
         <div className={styles.carta} >
                 <ImageC src={"/img/"+props.src+".svg"}/>

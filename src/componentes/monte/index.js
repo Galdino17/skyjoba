@@ -11,7 +11,7 @@ return (
         <div className={styles.cartaContainer} onClick={() => setCarta(props.monte)}>
         
             <div className={styles.carta}>
-                <Verso />
+                <Frente />
             </div>
             <div className={styles.titulo}> Monte </div>
         </div>
@@ -19,15 +19,15 @@ return (
         <div className={styles.cartaContainer}>
         
             <div className={styles.carta}>
-                <Frente src={carta}/>
+                <Verso src={carta}/>
             </div>
-            <div className={styles.titulo}> Mao </div>
+            <div className={styles.titulo}> Mão </div>
         </div>
 
         <div className={styles.cartaContainer} onClick={() =>   setCarta(props.lixo)} >
         
             <div className={styles.carta}>
-                <Frente src={props.lixo}/>
+                <Verso src={props.lixo}/>
             </div>
             <div className={styles.titulo}> Lixo </div>
         </div>
