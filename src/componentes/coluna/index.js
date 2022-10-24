@@ -18,7 +18,7 @@ export default function Coluna (props){
           }
 
           callData()
-      }, [props.jogador, props.index]);
+      }, [props.jogador, props.index, cartas]);
  
       
  if (cartas.length===0)  return(<> Loading </>)   
