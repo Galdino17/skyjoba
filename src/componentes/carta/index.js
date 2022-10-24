@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import ImageC from "../image"
 import styles from './styles.module.css'
 
-let socket;
 
 
 export default function Carta (props){

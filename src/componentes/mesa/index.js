@@ -1,23 +1,36 @@
 import Naipe from '../naipe'
 import Monte from '../monte'
 import styles from './styles.module.css'
-import { getCartas } from "../../lib/baralho"
+import { getMonte } from "../../lib/baralho";
+import { useEffect, useState } from 'react';
 
-export default function Mesa() {
-    const array_1 = getCartas()
-    const array_2 = getCartas()
-    const array_3 = getCartas()
-    const array_4 = getCartas()
+export default  function Mesa(props) {
+    const [lixo, setLixo] = useState('vazio')
+    const [monte, setMonte] = useState('vazio')
+    useEffect(() => {
+        const callData = async () => {
+            
+            const data = await getMonte().then(data => data)
+            setMonte(data[0])
+            setLixo(data[1])
+            
+      
+          }
+
+          callData()
+      }, []);
+    
+   
 return (
     <div className={styles.mesa}>
         <div className={styles.cartaContainer}>
-            <Naipe cartas={array_1} jogador={1}/>
+            <Naipe jogador={1}/>
             
-            <Naipe cartas={array_2}  jogador={2}/>
+            <Naipe jogador={2}/>
         
-            <Naipe cartas={array_3}  jogador={3}/>
+            <Naipe jogador={3}/>
         
-            <Naipe cartas={array_4} jogador={4}/>
+            <Naipe jogador={4}/>
 
             
         </div>
@@ -25,7 +38,7 @@ return (
         <div className={styles.barra_branca}>  </div>
         
         <div>
-            <Monte lixo={2} monte={-2}/>
+            <Monte lixo={lixo} monte={monte}/>
         </div>
 
     </div>
