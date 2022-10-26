@@ -36,8 +36,6 @@ export function SendCarsToServer () {
         set_firebase('/PartidaTeste/monte', monte)
         set_firebase('/PartidaTeste/lixo', lixo)
         
-      
-    console.log('enviado')
 }
 
 export function distribuirCarta (cartas) {
@@ -45,13 +43,12 @@ export function distribuirCarta (cartas) {
         let mao = {'c0':[], 'c1':[], 'c2':[], 'c3':[]}
         cartas.map((valor, index) => {
             
-            if(index<=2) mao['c0'].push([valor, 'verso'])
-            else if(index<=5) mao['c1'].push([valor, 'verso'])
-            else if(index<=8) mao['c2'].push([valor, 'verso'])
-            else if(index<=11) mao['c3'].push([valor, 'verso'])
+            if(index<=2) mao['c0'].push({'valor':valor, 'status':'verso'})
+            else if(index<=5) mao['c1'].push({'valor':valor, 'status':'verso'})
+            else if(index<=8) mao['c2'].push({'valor':valor, 'status':'verso'})
+            else if(index<=11) mao['c3'].push({'valor':valor, 'status':'verso'})
         })
 
-        console.log('...'+mao[3])
         return mao
 }
 
@@ -161,7 +158,7 @@ export function LoadCartas(){
 }
 
 export function vira_carta(jogador, coluna, linha, valor) {
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha, [valor, 'frente'])
+    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/status',  'frente')
 
 }
 

@@ -1,10 +1,12 @@
+import { useState } from 'react';
+
 import Naipe from '../naipe'
 import Monte from '../monte'
 import styles from './styles.module.css'
-import { getMonte, monte, lixo } from "../../lib/baralho";
-import { useEffect, useState } from 'react';
-import { onValue} from "firebase/database";
 
+
+import { onValue} from "firebase/database";
+import {  monte, lixo } from "../../lib/baralho";
 
 
 
