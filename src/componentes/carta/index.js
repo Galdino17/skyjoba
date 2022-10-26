@@ -27,6 +27,7 @@ export default function Carta (props){
        // if (carta.status != virada) setVirada(carta.status);
         console.log('++', valor, virada)
         console.log(carta)
+        console.log('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha)
        
         }, (error) => {
             console.error(error);
