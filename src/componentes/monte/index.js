@@ -42,7 +42,7 @@ return (
             <div className={styles.titulo}> Mão </div>
         </div>
 
-        <div className={styles.cartaContainer} onClick={() =>   setCarta(props.lixo)} >
+        <div className={styles.cartaContainer} onClick={() => handleClick(props.lixo)} >
         
             <div className={styles.carta}>
                 <Verso src={props.lixo}/>
