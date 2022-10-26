@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import Mesa from '../src/componentes/mesa'
 import {SendCarsToServer, getCartas, LoadCartas, cavar} from '../src/lib/baralho'
+import {Provider_jogador} from '../src/componentes/AppContext'
 import { getDatabase, ref, set, onValue } from "firebase/database";
 
 let socket;
@@ -9,6 +10,7 @@ let socket;
 const Home = () => {
   const [input, setInput] = useState([])
   const [carta, setCava] = useState('vazio')
+  
   
   
 
@@ -28,6 +30,8 @@ const Home = () => {
     
   }
 
+
+
  
 
 
@@ -36,9 +40,12 @@ const Home = () => {
   <button onClick={() => SendCarsToServer()}> Enviar  </button>
   <button onClick={() => handleCavar()}> Cavar  </button>
   <button onClick={() => handleReceber()}> Receber  </button>
-  <Mesa/>
+  <Provider_jogador>
+    <Mesa/>
+  </Provider_jogador>
   
-       <input type='text'></input>
+  
+       
       
      
 

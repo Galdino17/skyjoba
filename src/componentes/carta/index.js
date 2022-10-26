@@ -11,7 +11,7 @@ import { JogadorContext } from "../AppContext";
 
 export default function Carta (props){
     const [virada, setVirada] = useState('verso')
-    const [valor, setValor] = useState('verso')
+    const [valor, setValor] = useState(0)
     const [jogador_atual, setAtual] = useState(0)
     const jogadorContext = useContext(JogadorContext);
     const player = jogadorContext.jogador
@@ -22,10 +22,10 @@ export default function Carta (props){
     
     onValue(ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha), (snapshot) => {
         const carta = snapshot.val();
-        console.log(carta)
-        console.log('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha)
+
         if (carta.valor != valor) setValor(carta.valor);
         if (carta.status != virada) setVirada(carta.status);
+        console.log('++', valor, virada)
        
         }, (error) => {
             console.error(error);
@@ -56,7 +56,6 @@ export default function Carta (props){
 
     return (
         <div className={styles.cartaContainer}>
-            <label>{valor+' -- '+virada+'-'+jogadorContext.jogador}</label>
         <div className={style_carta} onClick={() => clickHandler()}>
             
             <div className={styles.frente}>

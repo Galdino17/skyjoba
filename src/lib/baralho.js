@@ -35,6 +35,7 @@ export function SendCarsToServer () {
         set_firebase('/PartidaTeste/baralho', baralho)
         set_firebase('/PartidaTeste/monte', monte)
         set_firebase('/PartidaTeste/lixo', lixo)
+        set_firebase('/PartidaTeste/jogador_atual', 1)
         
 }
 
@@ -159,6 +160,10 @@ export function LoadCartas(){
 
 export function vira_carta(jogador, coluna, linha, valor) {
     set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/status',  'frente')
+
+    if (jogador==4) jogador=0
+    jogador = jogador+1
+    set_firebase('/PartidaTeste/jogador_atual',  jogador)
 
 }
 
