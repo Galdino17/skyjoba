@@ -29,6 +29,11 @@
     text-align: center;
 }
 
+.titulo_atual {
+    background-color: rgb(43, 226, 195);
+    text-align: center;
+}
+
 .naipe {
     padding: auto;
     margin: 10px;
