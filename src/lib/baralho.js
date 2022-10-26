@@ -28,10 +28,10 @@ export function SendCarsToServer () {
         quantidade_cartas.map(np => mao_4.push(baralho.pop()))
         let monte = baralho.pop()
         let lixo =  baralho.pop()
-        set_firebase('/PartidaTeste/jogadores/1/cartas', distribuirCarta(mao_1))
-        set_firebase('/PartidaTeste/jogadores/2/cartas', distribuirCarta(mao_2))
-        set_firebase('/PartidaTeste/jogadores/3/cartas', distribuirCarta(mao_3))
-        set_firebase('/PartidaTeste/jogadores/4/cartas', distribuirCarta(mao_4))
+        set_firebase('/PartidaTeste/jogadores/1', distribuirCarta(mao_1))
+        set_firebase('/PartidaTeste/jogadores/2', distribuirCarta(mao_2))
+        set_firebase('/PartidaTeste/jogadores/3', distribuirCarta(mao_3))
+        set_firebase('/PartidaTeste/jogadores/4', distribuirCarta(mao_4))
         set_firebase('/PartidaTeste/baralho', baralho)
         set_firebase('/PartidaTeste/monte', monte)
         set_firebase('/PartidaTeste/lixo', lixo)
@@ -40,7 +40,7 @@ export function SendCarsToServer () {
 }
 
 export function distribuirCarta (cartas) {
-        
+        let jogador = {'placar_atual':0, 'placar_total':0}
         let mao = {'c0':[], 'c1':[], 'c2':[], 'c3':[]}
         cartas.map((valor, index) => {
             
@@ -50,7 +50,8 @@ export function distribuirCarta (cartas) {
             else if(index<=11) mao['c3'].push({'valor':valor, 'status':'verso'})
         })
 
-        return mao
+        jogador['cartas'] = mao
+        return jogador
 }
 
 export async function cavar () {
