@@ -18,6 +18,12 @@ export default function Carta (props){
     const coluna = props.coluna
     const jogador = props.jogador
     const linha = props.linha
+
+    const teste_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha)
+    onValue(teste_db, (snapshot) => {
+        let status = snapshot.val().json();
+        console.log('status: '+status) 
+        });
     
     const carta_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/status')
     onValue(carta_db, (snapshot) => {
@@ -51,6 +57,7 @@ export default function Carta (props){
 
     let style_carta = styles.carta
     if (virada=='frente') style_carta = `${styles.rotated} ${styles.carta}`
+
 
     return (
         <div className={styles.cartaContainer}>
