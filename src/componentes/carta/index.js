@@ -26,6 +26,7 @@ export default function Carta (props){
        // if (carta.valor != valor) setValor(carta.valor);
        // if (carta.status != virada) setVirada(carta.status);
         console.log('++', valor, virada)
+        console.log(carta)
        
         }, (error) => {
             console.error(error);
