@@ -22,9 +22,10 @@ export default function Carta (props){
     const carta_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha)
     onValue(carta_db, (snapshot) => {
         const carta = snapshot.val();
+        console.log(carta)
       
-        if (carta.valor != valor) setValor(carta.valor);
-        if (carta.status != virada) setVirada(carta.status);
+       // if (carta.valor != valor) setValor(carta.valor);
+       // if (carta.status != virada) setVirada(carta.status);
        
         }, (error) => {
             console.error(error);
@@ -33,7 +34,7 @@ export default function Carta (props){
     const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
     onValue(jogador_db, (snapshot) => {
             let jogadorAtual = snapshot.val();
-            if (jogadorAtual != jogador_atual) setAtual(parseInt(jogadorAtual));
+         //   if (jogadorAtual != jogador_atual) setAtual(parseInt(jogadorAtual));
            
             }, (error) => {
                 console.error(error);
