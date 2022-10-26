@@ -36,8 +36,11 @@ export default function Carta (props){
 
     return (
         <div className={styles.cartaContainer}>
+            <label>{valor+' -- '+virada}</label>
         <div className={style_carta} onClick={() => clickHandler()}>
+            
             <div className={styles.frente}>
+            
                     <ImageC src="/img/back.svg"/>
             </div>
             <div className={styles.verso} >

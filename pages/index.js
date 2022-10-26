@@ -38,7 +38,7 @@ const Home = () => {
   <button onClick={() => handleReceber()}> Receber  </button>
   <Mesa/>
   
-       <h1> {carta}</h1>
+       <input type='text'></input>
       
      
 
