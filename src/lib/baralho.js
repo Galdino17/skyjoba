@@ -187,6 +187,10 @@ export function vira_carta(jogador, coluna, linha, valor) {
 
 }
 
+export function set_mao(valor) {
+    set_firebase('/PartidaTeste/mao',  valor)
+}
+
 export async function verifica_placar(jogador_n) {
     return false
     const jogador = ref(database, '/PartidaTeste/jogadores/'+jogador_n);

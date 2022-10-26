@@ -11,6 +11,7 @@
     border-color: #ff9b2a;
     background-color: rgb(208, 185, 230);
     justify-content: space-around;
+    border-radius: 14px;
   
   
   }
@@ -19,14 +20,18 @@
     width: 100%;
     background-color: #ff9b2a;
     display: flexbox;
+    border-radius: 14px;
 
     text-align: center;
     color: rgb(41, 33, 83);
+    font-weight: bold;
 
 }
 
 .placar_atual {
     color: rgb(0, 0, 8);
+    font-weight:normal
+    
 
 }
 

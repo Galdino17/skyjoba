@@ -1,14 +1,32 @@
 import styles from './styles.module.css'
 import {Frente, Verso} from '../carta'
 import { useState } from 'react'
+import { onValue, ref } from "firebase/database";
+import { database, set_mao } from "../../lib/baralho"
 
 export default function Monte(props) {
 const [carta, setCarta] = useState('vazio')
+
+
+const handleClick = (carta) => {
+    setCarta(carta)
+    set_mao(carta)
+
+
+}
+
+const mao_db = ref(database, '/PartidaTeste/mao')
+    onValue(mao_db, (snapshot) => {
+
+            let mao = snapshot.val();
+            if (mao != carta) setCarta(mao);
+            
+            } );
     
 return (
     <div className={styles.monte}>
         
-        <div className={styles.cartaContainer} onClick={() => setCarta(props.monte)}>
+        <div className={styles.cartaContainer} onClick={() => handleClick(props.monte)}>
         
             <div className={styles.carta}>
                 <Frente />
