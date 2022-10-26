@@ -50,6 +50,14 @@ export function SendCarsToServer () {
         
 }
 
+export async function set_placar(jogador, valor){
+    const placar_atual = ref(database, '/PartidaTeste/jogadores/'+jogador+'/placar_atual');
+    let retorno
+    await get(placar_atual).then((snapshot) => retorno = snapshot.val())
+    let valor_atualizado = retorno + valor
+    set_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor_atualizado)
+}
+
 export function distribuirCarta (cartas) {
         let jogador = {'placar_atual':0, 'placar_total':0}
         let mao = {'c0':[], 'c1':[], 'c2':[], 'c3':[]}

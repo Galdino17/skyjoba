@@ -7,3 +7,7 @@
     margin: 2px;
     padding: 4px;
     }
+
+.coluna_atual {
+    background-color: rgb(214, 136, 20);
+}

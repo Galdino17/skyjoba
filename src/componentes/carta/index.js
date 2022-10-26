@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react"
 import ImageC from "../image"
 import styles from './styles.module.css'
-import { vira_carta, database } from "../../lib/baralho"
+import { vira_carta, database, set_placar } from "../../lib/baralho"
 
 import { onValue, ref } from "firebase/database";
 import { JogadorContext } from "../AppContext";
@@ -11,7 +11,7 @@ import { JogadorContext } from "../AppContext";
 export default function Carta (props){
     const [virada, setVirada] = useState('verso')
     const [valor, setValor] = useState('verso')
-    const [jogador_atual, setAtual] = useState(0)
+    const [jogador_atual, setAtual] = useState(props.atual)
     const jogadorContext = useContext(JogadorContext);
     const player = jogadorContext.jogador
     
@@ -19,6 +19,12 @@ export default function Carta (props){
     const jogador = props.jogador
     const linha = props.linha
 
+    const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
+    onValue(jogador_db, (snapshot) => {
+            let jogadorAtual = snapshot.val();
+            if (jogadorAtual != jogador_atual) setAtual(parseInt(jogadorAtual));
+            
+            } );
     
     const carta_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/status')
     onValue(carta_db, (snapshot) => {
@@ -32,17 +38,12 @@ export default function Carta (props){
             if (value != valor) setValor(value);  
             });
     
-    const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
-    onValue(jogador_db, (snapshot) => {
-            let jogadorAtual = snapshot.val();
-            if (jogadorAtual != jogador_atual) setAtual(parseInt(jogadorAtual));
-            } );
 
     const clickHandler = () => {
-        console.log(player, jogador_atual)
-        if (player==jogador_atual){
+        if (player==jogador_atual && player==jogador){
             setVirada('frente')
             vira_carta(jogador, coluna, linha, valor)
+            set_placar(jogador, valor)
 
         }
         

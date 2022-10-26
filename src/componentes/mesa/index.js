@@ -16,7 +16,6 @@ export default  function Mesa(props) {
     const [carta_monte, setMonte] = useState('vazio')
 
     const HandleChange = (valor) => {
-        console.log(parseInt(valor))
         jogadorContext.setJogador(parseInt(valor))
         
       }

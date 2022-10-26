@@ -6,13 +6,14 @@ import { getCartasJogador, verifica_coluna, getLastUpdated } from "../../lib/bar
 
 export default function Coluna (props){
     let cartas = [...Array(3)]
+    let coluna = (props.player==props.jogador) ? styles.coluna : `${styles.coluna} ${styles.coluna_atual}`
 
 return (
-    <div className={styles.coluna} >
+    <div className={coluna} >
  
         {cartas.map( (valor_carta, index) => (
                             <>
-                                <Carta src={valor_carta} jogador={props.jogador} coluna={props.coluna} linha={index}/>
+                                <Carta src={valor_carta} jogador={props.jogador} coluna={props.coluna} linha={index} atual={props.atual}/>
                             
                             </>
 

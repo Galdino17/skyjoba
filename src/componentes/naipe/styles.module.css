@@ -9,7 +9,7 @@
     height: 32vh;
     */
     border-color: #ff9b2a;
-    background-color: aquamarine;
+    background-color: rgb(208, 185, 230);
     justify-content: space-around;
   
   
@@ -21,23 +21,30 @@
     display: flexbox;
 
     text-align: center;
+    color: rgb(41, 33, 83);
+
+}
+
+.placar_atual {
+    color: rgb(0, 0, 8);
 
 }
 
 .titulo {
+    border-radius: 14px;
     background-color: blueviolet;
     text-align: center;
 }
 
 .titulo_atual {
-    background-color: rgb(43, 226, 195);
+    border-radius: 14px;
+    background-color: #ff9b2a;
     text-align: center;
 }
 
 .naipe {
     padding: auto;
     margin: 10px;
-    background-color: blue;
     
     height: 100%;
 }
