@@ -1,24 +1,40 @@
 import Naipe from '../naipe'
 import Monte from '../monte'
 import styles from './styles.module.css'
-import { getMonte } from "../../lib/baralho";
+import { getMonte, monte, lixo } from "../../lib/baralho";
 import { useEffect, useState } from 'react';
+import { onValue} from "firebase/database";
+
+
+
 
 export default  function Mesa(props) {
-    const [lixo, setLixo] = useState('vazio')
-    const [monte, setMonte] = useState('vazio')
-    useEffect(() => {
-        const callData = async () => {
+    const [carta_lixo, setLixo] = useState('vazio')
+    const [carta_monte, setMonte] = useState('vazio')
+
+    onValue(monte, (snapshot) => {
+        const data = snapshot.val();
+        if (data != carta_monte) setMonte(data);
+        });
+
+    onValue(lixo, (snapshot) => {
+            const data = snapshot.val();
+            if (data != carta_lixo) setLixo(data);
             
-            const data = await getMonte().then(data => data)
-            setMonte(data[0])
-            setLixo(data[1])
+            });
+
+    // useEffect(() => {
+    //     const callData = async () => {
+            
+    //         const data = await getMonte().then(data => data)
+    //         // setMonte(data[0])
+    //         setLixo(data[1])
             
       
-          }
+    //       }
 
-          callData()
-      }, []);
+    //       callData()
+    //   }, []);
     
    
 return (
@@ -38,7 +54,7 @@ return (
         <div className={styles.barra_branca}>  </div>
         
         <div>
-            <Monte lixo={lixo} monte={monte}/>
+            <Monte lixo={carta_lixo} monte={carta_monte}/>
         </div>
 
     </div>

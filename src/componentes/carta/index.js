@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import ImageC from "../image"
 import styles from './styles.module.css'
+import { vira_carta } from "../../lib/baralho"
 
 
 
@@ -9,9 +10,11 @@ export default function Carta (props){
     const valor = props.src
     const coluna = props.coluna
     const jogador = props.jogador
+    const linha = props.linha
 
     const clickHandler = () => {
         setVirada('frente')
+        vira_carta(jogador, coluna, linha, valor)
        
        }
     

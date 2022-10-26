@@ -3,7 +3,15 @@ import { db, app } from "./firebase";
 import { getDatabase, ref, set, onValue, update, get } from "firebase/database";
 
 
-const database = getDatabase();
+export const database = getDatabase();
+export const monte = ref(database, '/PartidaTeste/monte');
+export const lixo = ref(database, '/PartidaTeste/lixo');
+
+async function set_firebase (path, info) {
+    set(ref(database, path), info)
+    set(ref(database, '/PartidaTeste/lastUpdated'), Date())
+
+}
 
 export function SendCarsToServer () {
         let baralho = LoadCartas()
@@ -20,34 +28,32 @@ export function SendCarsToServer () {
         quantidade_cartas.map(np => mao_4.push(baralho.pop()))
         let monte = baralho.pop()
         let lixo =  baralho.pop()
-
-        set(ref(database, '/PartidaTeste/jogadores/1/cartas'), distribuirCarta(mao_1))
-        set(ref(database, '/PartidaTeste/jogadores/2/cartas'), distribuirCarta(mao_2))
-        set(ref(database, '/PartidaTeste/jogadores/3/cartas'), distribuirCarta(mao_3))
-        set(ref(database, '/PartidaTeste/jogadores/4/cartas'), distribuirCarta(mao_4))
-        set(ref(database, '/PartidaTeste/baralho'), baralho)
-        set(ref(database, '/PartidaTeste/monte'), monte)
-        set(ref(database, '/PartidaTeste/lixo'), lixo)
+        set_firebase('/PartidaTeste/jogadores/1/cartas', distribuirCarta(mao_1))
+        set_firebase('/PartidaTeste/jogadores/2/cartas', distribuirCarta(mao_2))
+        set_firebase('/PartidaTeste/jogadores/3/cartas', distribuirCarta(mao_3))
+        set_firebase('/PartidaTeste/jogadores/4/cartas', distribuirCarta(mao_4))
+        set_firebase('/PartidaTeste/baralho', baralho)
+        set_firebase('/PartidaTeste/monte', monte)
+        set_firebase('/PartidaTeste/lixo', lixo)
         
       
     console.log('enviado')
 }
 
 export function distribuirCarta (cartas) {
-        console.log('v-'+cartas)
+        
         let mao = {'c0':[], 'c1':[], 'c2':[], 'c3':[]}
         cartas.map((valor, index) => {
             
-            if(index<=2) mao['c0'].push(valor)
-            else if(index<=5) mao['c1'].push(valor)
-            else if(index<=8) mao['c2'].push(valor)
-            else if(index<=11) mao['c3'].push(valor)
+            if(index<=2) mao['c0'].push([valor, 'verso'])
+            else if(index<=5) mao['c1'].push([valor, 'verso'])
+            else if(index<=8) mao['c2'].push([valor, 'verso'])
+            else if(index<=11) mao['c3'].push([valor, 'verso'])
         })
 
         console.log('...'+mao[3])
         return mao
 }
-
 
 export async function cavar () {
     
@@ -55,7 +61,6 @@ export async function cavar () {
     let baralho = await getBaralho()
     let carta = baralho.pop()
 
-    const database = getDatabase();
     update(ref(database, '/PartidaTeste'), {
         baralho: baralho
     })
@@ -66,7 +71,6 @@ export async function cavar () {
 
 
 export async function getBaralho (){
-    const database = getDatabase();
     let retorno
     
     const returnBaralho = ref(database, '/PartidaTeste/baralho');
@@ -79,29 +83,35 @@ export async function getBaralho (){
 
 }
 
+export async function getLastUpdated () {
+    let lastUpdated
+    const lastUpdated_get = ref(database, '/PartidaTeste/lastUpdated');
+    await get(lastUpdated_get).then((snapshot) => lastUpdated = snapshot.val())
+    return lastUpdated
+
+}
+
 export async function getCartasJogador (jogador, index){
     
-    const database = getDatabase();
-    let retorno =[]
     
+    let retorno =[]
+    let lastUpdated = await getLastUpdated()
     const returnBaralho = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+index);
     await get(returnBaralho).then((snapshot) => {
         snapshot.val().forEach( value => {
-            console.log('++'+value)
             retorno.push(value)
         })
     })
     
-        return retorno
+        return [retorno, lastUpdated]
 }
 
 export async function getMonte (){
     
-    const database = getDatabase();
-    let mont_v, lixo_v
     
-    const monte = ref(database, '/PartidaTeste/monte');
-    const lixo = ref(database, '/PartidaTeste/lixo');
+    let mont_v, lixo_v
+
+
     await get(monte).then((snapshot) => mont_v = snapshot.val())
     await get(lixo).then((snapshot) => lixo_v = snapshot.val())
        
@@ -113,7 +123,7 @@ export async function getCartas (jogador){
     
     let baralho = await cavar(12)
     
-    await set(ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas'), baralho)
+    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas', baralho)
     let mao = []
 
     const colunas = [...Array(4)] 
@@ -148,6 +158,38 @@ export function LoadCartas(){
     }) 
 
     return Embaralhar(baralho)   
+}
+
+export function vira_carta(jogador, coluna, linha, valor) {
+    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha, [valor, 'frente'])
+
+}
+
+export async function verifica_placar(jogador_n) {
+    return false
+    const jogador = ref(database, '/PartidaTeste/jogadores/'+jogador_n);
+    await get(jogador).then((snapshot) => retorno = snapshot.val())
+
+    if (array[0][0]===array[1][0] && array[0][1]=='frente' && array[1][1]=='frente'){
+        if (array[1][0]===array[2][0] && array[2][1]=='frente') {
+            return true
+        }
+    }
+    return false
+
+}
+
+
+
+export function verifica_coluna(array) {
+
+    if (array[0][0]===array[1][0] && array[0][1]=='frente' && array[1][1]=='frente'){
+        if (array[1][0]===array[2][0] && array[2][1]=='frente') {
+            return true
+        }
+    }
+    return false
+
 }
 
 export function Populate(baralho, quantidade, valor ){
