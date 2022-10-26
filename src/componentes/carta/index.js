@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react"
 import ImageC from "../image"
 import styles from './styles.module.css'
-import { vira_carta, database, onValue_gerado } from "../../lib/baralho"
+import { vira_carta, database } from "../../lib/baralho"
 
 import { onValue, ref } from "firebase/database";
 import { JogadorContext } from "../AppContext";
@@ -19,28 +19,23 @@ export default function Carta (props){
     const jogador = props.jogador
     const linha = props.linha
     
-    const carta_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha)
-    console.log(onValue_gerado(carta_db))
-    // onValue(carta_db, (snapshot) => {
-    //     const carta = snapshot.val();
-    //     console.log(carta)
-      
-    //    // if (carta.valor != valor) setValor(carta.valor);
-    //    // if (carta.status != virada) setVirada(carta.status);
-       
-    //     }, (error) => {
-    //         console.error(error);
-    //       });
+    const carta_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/status')
+    onValue(carta_db, (snapshot) => {
+        let status = snapshot.val();
+        if (status != virada) setVirada(status);  
+        });
+
+    const valor_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/valor')
+    onValue(valor_db, (snapshot) => {
+        let value = snapshot.val();
+            if (value != valor) setValor(value);  
+            });
     
     const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
-    console.log(onValue_gerado(jogador_db))
-    // onValue(jogador_db, (snapshot) => {
-    //         let jogadorAtual = snapshot.val();
-    //      //   if (jogadorAtual != jogador_atual) setAtual(parseInt(jogadorAtual));
-           
-    //         }, (error) => {
-    //             console.error(error);
-    //           } );
+    onValue(jogador_db, (snapshot) => {
+            let jogadorAtual = snapshot.val();
+            if (jogadorAtual != jogador_atual) setAtual(parseInt(jogadorAtual));
+            } );
 
     const clickHandler = () => {
         console.log(player, jogador_atual)
