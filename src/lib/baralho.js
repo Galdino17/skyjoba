@@ -7,6 +7,17 @@ export const database = getDatabase();
 export const monte = ref(database, '/PartidaTeste/monte');
 export const lixo = ref(database, '/PartidaTeste/lixo');
 
+
+export function onValue_gerado(caminho) {
+    let retorno
+    onValue(caminho, (snapshot) => {
+        retorno =  snapshot.val();
+    });
+    return retorno
+}
+    
+
+
 async function set_firebase (path, info) {
     set(ref(database, path), info)
     set(ref(database, '/PartidaTeste/lastUpdated'), Date())
