@@ -1,17 +1,16 @@
 import React, { useState, useContext } from "react"
 import ImageC from "../image"
 import styles from './styles.module.css'
-import { vira_carta } from "../../lib/baralho"
+import { vira_carta, database } from "../../lib/baralho"
 
-import { onValue, ref} from "firebase/database";
-import {  database } from "../../lib/baralho";
+import { onValue, ref } from "firebase/database";
 import { JogadorContext } from "../AppContext";
 
 
 
 export default function Carta (props){
     const [virada, setVirada] = useState('verso')
-    const [valor, setValor] = useState(0)
+    const [valor, setValor] = useState('verso')
     const [jogador_atual, setAtual] = useState(0)
     const jogadorContext = useContext(JogadorContext);
     const player = jogadorContext.jogador
@@ -20,22 +19,21 @@ export default function Carta (props){
     const jogador = props.jogador
     const linha = props.linha
     
-    onValue(ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha), (snapshot) => {
+    const carta_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha)
+    onValue(carta_db, (snapshot) => {
         const carta = snapshot.val();
-
-       // if (carta.valor != valor) setValor(carta.valor);
-       // if (carta.status != virada) setVirada(carta.status);
-        console.log('++', valor, virada)
-        console.log(carta)
-        console.log('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha)
+      
+        if (carta.valor != valor) setValor(carta.valor);
+        if (carta.status != virada) setVirada(carta.status);
        
         }, (error) => {
             console.error(error);
           });
     
-    onValue(ref(database, '/PartidaTeste/jogador_atual'), (snapshot) => {
+    const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
+    onValue(jogador_db, (snapshot) => {
             let jogadorAtual = snapshot.val();
-          //  if (jogadorAtual != jogador_atual) setAtual(parseInt(jogadorAtual));
+            if (jogadorAtual != jogador_atual) setAtual(parseInt(jogadorAtual));
            
             }, (error) => {
                 console.error(error);
