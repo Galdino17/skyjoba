@@ -12,7 +12,9 @@ import { JogadorContext } from "../AppContext";
 export default function Carta (props){
     const [virada, setVirada] = useState('verso')
     const [valor, setValor] = useState('verso')
+    const [jogador_atual, setAtual] = useState(0)
     const jogadorContext = useContext(JogadorContext);
+    const player = jogadorContext.jogador
     
     const coluna = props.coluna
     const jogador = props.jogador
@@ -25,11 +27,26 @@ export default function Carta (props){
         if (carta.valor != valor) setValor(carta.valor);
         if (carta.status != virada) setVirada(carta.status);
        
-        });
+        }, (error) => {
+            console.error(error);
+          });
+    
+    onValue(ref(database, '/PartidaTeste/jogador_atual'), (snapshot) => {
+            let jogadorAtual = snapshot.val();
+            if (jogadorAtual != jogador_atual) setAtual(parseInt(jogadorAtual));
+           
+            }, (error) => {
+                console.error(error);
+              } );
 
     const clickHandler = () => {
-        setVirada('frente')
-        vira_carta(jogador, coluna, linha, valor)
+        console.log(player, jogador_atual)
+        if (player==jogador_atual){
+            setVirada('frente')
+            vira_carta(jogador, coluna, linha, valor)
+
+        }
+        
        
        }
     
