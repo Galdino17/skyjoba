@@ -5,12 +5,14 @@ import { vira_carta } from "../../lib/baralho"
 
 import { onValue, ref} from "firebase/database";
 import {  database } from "../../lib/baralho";
+import { JogadorContext } from "../AppContext";
 
 
 
 export default function Carta (props){
     const [virada, setVirada] = useState('verso')
     const [valor, setValor] = useState('verso')
+    const jogadorContext = useContext(JogadorContext);
     
     const coluna = props.coluna
     const jogador = props.jogador
@@ -18,7 +20,8 @@ export default function Carta (props){
     
     onValue(ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha), (snapshot) => {
         const carta = snapshot.val();
-        
+        console.log(carta)
+        console.log('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha)
         if (carta.valor != valor) setValor(carta.valor);
         if (carta.status != virada) setVirada(carta.status);
        
@@ -36,7 +39,7 @@ export default function Carta (props){
 
     return (
         <div className={styles.cartaContainer}>
-            <label>{valor+' -- '+virada}</label>
+            <label>{valor+' -- '+virada+'-'+jogadorContext.jogador}</label>
         <div className={style_carta} onClick={() => clickHandler()}>
             
             <div className={styles.frente}>
