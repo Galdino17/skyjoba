@@ -21,21 +21,24 @@ export default function Carta (props){
 
     const teste_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha)
     onValue(teste_db, (snapshot) => {
-        let status = snapshot.val().json();
-        console.log('status: '+status) 
+        let carta = JSON.parse(JSON.stringify(snapshot.val())) 
+        if (carta['status'] != virada) setVirada(carta['status']); 
+        if (carta['valor'] != valor) setValor(carta['valor'])
+        console.log(carta['valor']) 
+        console.log(carta['status']) 
         });
     
-    const carta_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/status')
-    onValue(carta_db, (snapshot) => {
-        let status = snapshot.val();
-        if (status != virada) setVirada(status);  
-        });
+    // const carta_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/status')
+    // onValue(carta_db, (snapshot) => {
+    //     let status = snapshot.val();
+    //     if (status != virada) setVirada(status);  
+    //     });
 
-    const valor_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/valor')
-    onValue(valor_db, (snapshot) => {
-        let value = snapshot.val();
-            if (value != valor) setValor(value);  
-            });
+    // const valor_db = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/valor')
+    // onValue(valor_db, (snapshot) => {
+    //     let value = snapshot.val();
+    //         if (value != valor) setValor(value);  
+    //         });
     
     const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
     onValue(jogador_db, (snapshot) => {
