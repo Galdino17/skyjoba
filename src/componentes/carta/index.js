@@ -41,8 +41,10 @@ export default function Carta (props){
 
     const clickHandler = () => {
         if (player==jogador_atual && player==jogador){
+            let count = 0
+            if (virada==='verso') count=1
             setVirada('frente')
-            vira_carta(jogador, coluna, linha, valor)
+            vira_carta(jogador, coluna, linha, count)
             set_placar(jogador, valor)
 
         }

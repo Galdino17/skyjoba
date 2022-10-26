@@ -24,6 +24,24 @@ async function set_firebase (path, info) {
 
 }
 
+async function get_firebase (path) {
+    const caminho = ref(database, path);
+    let retorno
+    await get(caminho).then((snapshot) => retorno = snapshot.val())
+    return retorno
+
+}
+
+async function update_incremento_firebase (path, valor) {
+    let resultado = get_firebase(path)
+    resultado.then(value_retornado => {
+        let valor_atualizado = value_retornado + valor
+        set_firebase(path, valor_atualizado)
+
+    })
+
+}
+
 export function SendCarsToServer () {
         let baralho = LoadCartas()
         let quantidade_cartas = [...Array(12)]
@@ -51,11 +69,15 @@ export function SendCarsToServer () {
 }
 
 export async function set_placar(jogador, valor){
-    const placar_atual = ref(database, '/PartidaTeste/jogadores/'+jogador+'/placar_atual');
-    let retorno
-    await get(placar_atual).then((snapshot) => retorno = snapshot.val())
-    let valor_atualizado = retorno + valor
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor_atualizado)
+    
+    update_incremento_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor)
+    // let resultado = get_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual')
+    // resultado.then(value_retornado => {
+    //     let valor_atualizado = value_retornado + valor
+    //     set_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor_atualizado)
+
+    // })
+    
 }
 
 export function distribuirCarta (cartas) {
@@ -124,18 +146,7 @@ export async function getCartasJogador (jogador, index){
         return [retorno, lastUpdated]
 }
 
-export async function getMonte (){
-    
-    
-    let mont_v, lixo_v
 
-
-    await get(monte).then((snapshot) => mont_v = snapshot.val())
-    await get(lixo).then((snapshot) => lixo_v = snapshot.val())
-       
-
-        return [mont_v, lixo_v]
-}
 
 export async function getCartas (jogador){
     
@@ -178,12 +189,24 @@ export function LoadCartas(){
     return Embaralhar(baralho)   
 }
 
-export function vira_carta(jogador, coluna, linha, valor) {
+export function vira_carta(jogador, coluna, linha, count) {
     set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/status',  'frente')
+    atualiza_quantidade_viradas(jogador, count)
 
     if (jogador==4) jogador=0
     jogador = jogador+1
     set_firebase('/PartidaTeste/jogador_atual',  jogador)
+
+}
+
+export async function atualiza_quantidade_viradas (jogador, count) {
+    update_incremento_firebase('/PartidaTeste/jogadores/'+jogador+'/viradas', count)
+    // let resultado = get_firebase('/PartidaTeste/jogadores/'+jogador+'/viradas')
+    // resultado.then(value_retornado => {
+    //     let valor_atualizado = value_retornado + valor
+    //     set_firebase('/PartidaTeste/jogadores/'+jogador+'/viradas', valor_atualizado)
+
+    // })
 
 }
 
