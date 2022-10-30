@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from "react"
+import React, { useState, useContext, useRef, useEffect, useCallback } from "react"
 import { motion, Variants } from "framer-motion"
 import { LocationContext, JogadorContext } from '../AppContext';
 
@@ -16,24 +16,17 @@ export default function AnimationDiv ({children, id}){
     const [ymoved, setYmoved] = useState('0')
     const [xmoved_, setXmoved_] = useState('0')
     const [ymoved_, setYmoved_] = useState('0')
-    
-
-    useEffect(() => {
-
-        if (id=='lixo') Lixo.setLixo(x_y())
-        if (id=='mao') Mao.setMao(x_y())
-        if (Animate.animation.slice(2,7)==id && Animate.animation!=animated ) move(x_y(), Lixo.lixo)
-        //Se for igual a l, foi cavada do lixo 
-        if (Animate.animation.slice(0,1)=='l' && Animate.animation!=animated ) move_lixo()
-        
-        
-    }, [Lixo.setLixo, Mao.setMao, id, move, Animate.animation, animated])
+ 
 
     const x_y = () => {
         const x = inputRef.current.getBoundingClientRect().x
         const y = inputRef.current.getBoundingClientRect().y
         return {x:x, y:y}
     }
+
+    
+
+
 
     const distancia = (de, para, eixo) => {
         let distancia = para[eixo] - de[eixo] 
@@ -62,7 +55,7 @@ export default function AnimationDiv ({children, id}){
 
     }
 
-    const move = (de, para) => {
+    const move = useCallback((de, para) => {
         if (id!='mao' && id!='lixo' && id!='monte'){
 
             setClicked(!clicked)
@@ -74,8 +67,18 @@ export default function AnimationDiv ({children, id}){
 
         }
         
-    }
+    }, [])
 
+    useEffect(() => {
+
+        if (id=='lixo') Lixo.setLixo(x_y())
+        if (id=='mao') Mao.setMao(x_y())
+        if (Animate.animation.slice(2,7)==id && Animate.animation!=animated ) move(x_y(), Lixo.lixo)
+        //Se for igual a l, foi cavada do lixo 
+        if (Animate.animation.slice(0,1)=='l' && Animate.animation!=animated ) move_lixo()
+        
+        
+    }, [Lixo.setLixo, Mao.setMao, id, move, Animate.animation, animated, Mao, Lixo])
     
 
     const variants = {
