@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
 
 import Mesa from '../src/componentes/mesa'
-import {SendCarsToServer, getCartas, LoadCartas, cavar} from '../src/lib/baralho'
-import {Provider_jogador} from '../src/componentes/AppContext'
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import {SendCarsToServer, cavar} from '../src/lib/baralho'
+import {Provider_jogador, Provider_Location} from '../src/componentes/AppContext'
+import { logar } from '../src/lib/firebase';
 
 let socket;
 
@@ -17,6 +17,7 @@ const Home = () => {
   useEffect(() => {
     
 
+
     return () => {
       
       
@@ -27,8 +28,8 @@ const Home = () => {
     setCava(cavar())
   }
 
-  const handleReceber = () => {
-    let novasCartas = [getCartas(1), getCartas(2), getCartas(3), getCartas(4)]
+  const Logar = () => {
+    logar()
     
   }
 
@@ -41,10 +42,12 @@ const Home = () => {
     <>
   <button onClick={() => SendCarsToServer()}> Enviar  </button>
   <button onClick={() => handleCavar()}> Cavar  </button>
-  <button onClick={() => handleReceber()}> Receber  </button>
+  <button onClick={() => Logar()}> Logar  </button>
+  <Provider_Location>
   <Provider_jogador>
     <Mesa/>
   </Provider_jogador>
+  </Provider_Location>
   
   
        

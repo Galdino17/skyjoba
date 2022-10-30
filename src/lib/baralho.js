@@ -6,16 +6,9 @@ import { getDatabase, ref, set, onValue, update, get } from "firebase/database";
 export const database = getDatabase();
 export const monte = ref(database, '/PartidaTeste/monte');
 export const lixo = ref(database, '/PartidaTeste/lixo');
+export const animation = ref(database, '/PartidaTeste/lastAnimation')
 
 
-export function onValue_gerado(caminho) {
-    let retorno
-    onValue(caminho, (snapshot) => {
-        retorno =  snapshot.val();
-    });
-    return retorno
-}
-    
 
 
 async function set_firebase (path, info) {
@@ -64,8 +57,24 @@ export function SendCarsToServer () {
         set_firebase('/PartidaTeste/baralho', baralho)
         set_firebase('/PartidaTeste/monte', monte)
         set_firebase('/PartidaTeste/lixo', lixo)
+        set_firebase('/PartidaTeste/mao', 'vazio')
         set_firebase('/PartidaTeste/jogador_atual', 1)
         
+}
+
+export function distribuirCarta (cartas) {
+    let jogador = {'placar_atual':0, 'placar_total':0}
+    let mao = {'c0':[], 'c1':[], 'c2':[], 'c3':[]}
+    cartas.map((valor, index) => {
+        
+        if(index<=2) mao['c0'].push({'valor':valor, 'status':'verso'})
+        else if(index<=5) mao['c1'].push({'valor':valor, 'status':'verso'})
+        else if(index<=8) mao['c2'].push({'valor':valor, 'status':'verso'})
+        else if(index<=11) mao['c3'].push({'valor':valor, 'status':'verso'})
+    })
+
+    jogador['cartas'] = mao
+    return jogador
 }
 
 export async function set_placar(jogador, valor){
@@ -80,20 +89,7 @@ export async function set_placar(jogador, valor){
     
 }
 
-export function distribuirCarta (cartas) {
-        let jogador = {'placar_atual':0, 'placar_total':0}
-        let mao = {'c0':[], 'c1':[], 'c2':[], 'c3':[]}
-        cartas.map((valor, index) => {
-            
-            if(index<=2) mao['c0'].push({'valor':valor, 'status':'verso'})
-            else if(index<=5) mao['c1'].push({'valor':valor, 'status':'verso'})
-            else if(index<=8) mao['c2'].push({'valor':valor, 'status':'verso'})
-            else if(index<=11) mao['c3'].push({'valor':valor, 'status':'verso'})
-        })
 
-        jogador['cartas'] = mao
-        return jogador
-}
 
 export async function cavar () {
     
@@ -201,13 +197,6 @@ export function vira_carta(jogador, coluna, linha, count) {
 
 export async function atualiza_quantidade_viradas (jogador, count) {
     update_incremento_firebase('/PartidaTeste/jogadores/'+jogador+'/viradas', count)
-    // let resultado = get_firebase('/PartidaTeste/jogadores/'+jogador+'/viradas')
-    // resultado.then(value_retornado => {
-    //     let valor_atualizado = value_retornado + valor
-    //     set_firebase('/PartidaTeste/jogadores/'+jogador+'/viradas', valor_atualizado)
-
-    // })
-
 }
 
 export function set_mao(valor) {

@@ -1,6 +1,8 @@
 import React from "react";
 import Image from 'next/image'
-import styles from '../../../styles/cartas.module.css'
+import styles from './styles.module.css'
+
+
 
 const WithDynamicImage = (props) => {
     
