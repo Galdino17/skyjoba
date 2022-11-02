@@ -18,6 +18,7 @@ export default function Home() {
             onValue(partida_ref, (snapshot) => {if (snapshot.val() != partida) setPartida(snapshot.val())})
             setUpdated(updatedUseEffect)
             console.log(partida)
+            console.log("Updated At: "+updatedUseEffect)
 
         }
         
