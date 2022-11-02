@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import ReactDOM from 'react-dom';
 import ImageC from "../image"
 import styles from './styles.module.css'
@@ -23,16 +23,18 @@ export default function Carta (props){
     const coluna = props.coluna
     const naipe = props.naipe
     const linha = props.linha
-
-
-    
     const carta_db = ref(database, '/PartidaTeste/jogadores/'+naipe+'/cartas/c'+coluna+'/'+linha+'/status')
+    const valor_db = ref(database, '/PartidaTeste/jogadores/'+naipe+'/cartas/c'+coluna+'/'+linha+'/valor')
+
+    useEffect(()=>{
+        
     onValue(carta_db, (snapshot) => {
         let status = snapshot.val();
         if (status != virada) setVirada(status);  
+        console.log(status)
         });
 
-    const valor_db = ref(database, '/PartidaTeste/jogadores/'+naipe+'/cartas/c'+coluna+'/'+linha+'/valor')
+    
     onValue(valor_db, (snapshot) => {
         let value = snapshot.val();
             if (value != valor) {
@@ -43,6 +45,10 @@ export default function Carta (props){
             }  
             
             });
+
+    }, [setValor, setVirada, carta_db, valor_db, valor, virada])
+    
+    
     
 
     const clickHandler = () => {

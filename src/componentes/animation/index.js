@@ -1,8 +1,8 @@
 import React, { useState, useContext, useRef, useEffect, useCallback } from "react"
-import { motion, Variants } from "framer-motion"
-import { LocationContext, JogadorContext } from '../AppContext';
+import { motion } from "framer-motion"
+import { LocationContext } from '../AppContext';
 
-import styles from './styles.module.css'
+
 
 
 export default function AnimationDiv ({children, id}){
@@ -50,35 +50,47 @@ export default function AnimationDiv ({children, id}){
         setYmoved_(-real_distancia+'px')
     }
 
-    const move_lixo = () => {
+    const move_to_lixo = () => {
         //Essa função só rodará na carta lixo
 
     }
 
-    const move = useCallback((de, para) => {
-        if (id!='mao' && id!='lixo' && id!='monte'){
+    const move_de_mao = (id_move) => {
 
-            setClicked(!clicked)
-            setAnimated(Animate.animation)
-            
-
-            moveX(de, para)
-            moveY(de, para)
-
+        //Essa função só rodará na carta mao
+        if(id=='mao'){
+            move(id_move)
         }
+
+    }
+
+    const move = (para) => {
+
+            
+            // setAnimated(Animate.animation)
+            // let de = x_y()
+
+            // moveX(de, para)
+            // moveY(de, para)
+
         
-    }, [])
+        
+    }
 
     useEffect(() => {
 
         if (id=='lixo') Lixo.setLixo(x_y())
         if (id=='mao') Mao.setMao(x_y())
-        if (Animate.animation.slice(2,7)==id && Animate.animation!=animated ) move(x_y(), Lixo.lixo)
+        if ((id=='mao' || Animate.animation.slice(2,7)==id) && Animate.animation!=animated ) {
+            move(Lixo.lixo)
+            move_de_mao(Animate.animation.slice(2,7))
+            setAnimated(Animate.animation)
+        }
         //Se for igual a l, foi cavada do lixo 
-        if (Animate.animation.slice(0,1)=='l' && Animate.animation!=animated ) move_lixo()
+        if (Animate.animation.slice(0,1)=='l' && Animate.animation!=animated ) move_to_lixo()
         
         
-    }, [Lixo.setLixo, Mao.setMao, id, move, Animate.animation, animated, Mao, Lixo])
+    }, [Lixo.setLixo, Mao.setMao, id, Animate.animation, animated])
     
 
     const variants = {
@@ -96,20 +108,15 @@ export default function AnimationDiv ({children, id}){
     return (
         <motion.div ref={inputRef} variants={variants}
          
-         animate={clicked ? 'move' : 'stop'}
+         animate={Animate.animation!=animated ? 'move' : 'stop'}
         >
-        <motion.div variants={variants}
-         animate={clicked ? 'move_back' : 'stop'}
-         onClick={(e) => move()}
-        >
-            {children}
+            <motion.div variants={variants}
+            animate={Animate.animation!=animated ? 'move_back' : 'stop'}
+            
+            >
+                {children}
 
-        </motion.div>
-
-            
-        
-            
-            
+            </motion.div>
         </motion.div>
        
     )

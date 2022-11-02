@@ -4,6 +4,7 @@ import { useState } from "react";
 export const PlacarContext = createContext();
 export const JogadorContext = createContext();
 export const LocationContext = createContext();
+export const GameContext = createContext();
 
 
 export const Provider_jogador = ({ children }) => {
@@ -18,5 +19,13 @@ export const Provider_Location = ({ children }) => {
     const [animation, setAnimation] = useState('')
     return <LocationContext.Provider value={{ Mao:{mao, setMao}, Lixo:{lixo, setLixo}, Animate:{animation, setAnimation} }}>{children}</LocationContext.Provider>;
   };
+
+;
+
+export const Provider_Game = ({ children }) => {
+  const [updated, setUpdated] = useState(1)
+  
+  return <GameContext.Provider value={{ LastUP:{updated, setUpdated} }}>{children}</GameContext.Provider>;
+};
 
 ;

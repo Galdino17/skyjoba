@@ -12,10 +12,10 @@ return (
     <div className={coluna} >
  
         {cartas.map( (valor_carta, index) => (
-                            <>
+                            <div key={index}>
                                 <Carta src={valor_carta} naipe={props.naipe} coluna={props.coluna} linha={index} atual={props.atual}/>
                             
-                            </>
+                            </div>
 
                             )
                     )

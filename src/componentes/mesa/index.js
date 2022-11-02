@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 
 import Naipe from '../naipe'
@@ -7,51 +7,52 @@ import styles from './styles.module.css'
 
 
 import { onValue} from "firebase/database";
-import {  monte, lixo, animation as animation_ref } from "../../lib/baralho";
-import { JogadorContext, LocationContext } from "../AppContext";
+import {  lastUpdated, partida as partida_ref, monte, lixo, animation as animation_ref } from "../../lib/baralho";
+import { JogadorContext, LocationContext, GameContext } from "../AppContext";
 
 
 export default  function Mesa(props) {
     const jogadorContext = useContext(JogadorContext);
     const AnimationContext = useContext(LocationContext);
+    const Contexto_game = useContext(GameContext);
     const [carta_lixo, setLixo] = useState('vazio')
     const [carta_monte, setMonte] = useState('vazio')
+    const [partida, setPartida] = useState('vazio')
 
     const HandleChange = (valor) => {
         jogadorContext.setJogador(parseInt(valor))
         
       }
 
-    onValue(monte, (snapshot) => {
-        const data = snapshot.val();
-        if (data != carta_monte) setMonte(data);
-        });
+    useEffect(()=>{
+        let updatedUseEffect = ''
+        onValue(lastUpdated, (snapshot) => {
+             updatedUseEffect = snapshot.val()
+        })
+        
+        if (updatedUseEffect!=Contexto_game.LastUP.updated){
+            onValue(partida_ref, (snapshot) => {if (snapshot.val() != partida) setPartida(snapshot.val())})
+            onValue(monte, (snapshot) => {if (snapshot.val() != carta_monte) setMonte(snapshot.val())})
+            onValue(lixo, (snapshot) => {if (snapshot.val() != carta_lixo) setLixo(snapshot.val())})
 
-    onValue(lixo, (snapshot) => {
-            const data = snapshot.val();
-            if (data != carta_lixo) setLixo(data);
-            
-            });
+            onValue(animation_ref, (snapshot) => {
+                let animation = AnimationContext.Animate.animation
+                if (snapshot.val() != animation) AnimationContext.Animate.setAnimation(snapshot.val())
+            })
+
+            if (updatedUseEffect != Contexto_game.LastUP.updated) Contexto_game.LastUP.setUpdated(updatedUseEffect)
+            console.log("Todos os Onvalues")
+            console.log(partida)
+
+        }
+        
+    },[carta_lixo, carta_monte, partida, setLixo, setMonte, setPartida, Contexto_game.LastUP])
+
     
     
-    onValue(animation_ref, (snapshot) => {
-            const data = snapshot.val();
-            if (data != AnimationContext.Animate.animation) AnimationContext.Animate.setAnimation(data);
-                
-                });
+    
 
-    // useEffect(() => {
-    //     const callData = async () => {
-            
-    //         const data = await getMonte().then(data => data)
-    //         // setMonte(data[0])
-    //         setLixo(data[1])
-            
-      
-    //       }
 
-    //       callData()
-    //   }, []);
     
    
 return (

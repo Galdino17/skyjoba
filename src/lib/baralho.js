@@ -7,6 +7,8 @@ export const database = getDatabase();
 export const monte = ref(database, '/PartidaTeste/monte');
 export const lixo = ref(database, '/PartidaTeste/lixo');
 export const animation = ref(database, '/PartidaTeste/lastAnimation')
+export const partida = ref(database, '/PartidaTeste');
+export const lastUpdated = ref(database, '/PartidaTeste/lastUpdated');
 
 
 
