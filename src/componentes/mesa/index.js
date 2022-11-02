@@ -42,7 +42,7 @@ export default  function Mesa(props) {
 
             if (updatedUseEffect != Contexto_game.LastUP.updated) Contexto_game.LastUP.setUpdated(updatedUseEffect)
             console.log("Todos os Onvalues")
-            console.log(partida)
+            //console.log(partida)
 
         }
         
