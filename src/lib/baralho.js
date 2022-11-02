@@ -9,6 +9,8 @@ export const lixo = ref(database, '/PartidaTeste/lixo');
 export const animation = ref(database, '/PartidaTeste/lastAnimation')
 export const partida = ref(database, '/PartidaTeste');
 export const lastUpdated = ref(database, '/PartidaTeste/lastUpdated');
+export const mao_db = ref(database, '/PartidaTeste/mao')
+export const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
 
 
 

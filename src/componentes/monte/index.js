@@ -13,10 +13,7 @@ const player = jogadorContext.jogador
 const naipe = props.naipe
 const jogadorDaVez = jogadorContext.Atual.atual
 
-const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
-onValue(jogador_db, (snapshot) => {
-        if (snapshot.val() != jogadorDaVez) jogadorContext.Atual.setAtual(snapshot.val());
-        } );
+jogadorContext.Atual.setAtual(props.jogador_atual)
 
 
 const handleClick = (carta) => {
@@ -31,14 +28,6 @@ const handleClick = (carta) => {
 
 
 
-
-const mao_db = ref(database, '/PartidaTeste/mao')
-    onValue(mao_db, (snapshot) => {
-
-            let mao = snapshot.val();
-            if (mao != carta) setCarta(mao);
-            
-            } );
     
 return (
     <div className={styles.monte}>
