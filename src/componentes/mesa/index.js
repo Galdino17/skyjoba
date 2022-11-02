@@ -38,8 +38,7 @@ export default  function Mesa(props) {
             onValue(lixo, (snapshot) => {if (snapshot.val() != carta_lixo) setLixo(snapshot.val())})
             onValue(mao_db, (snapshot) => {if (snapshot.val() != carta_lixo) setMao(snapshot.val())})
             onValue(jogador_db, (snapshot) => {if (snapshot.val() != carta_lixo) setJogadorAtual(snapshot.val())})
-            onValue(placar_db, (snapshot) => { if (snapshot.val() != placar_atual) setPlacar(snapshot.val()); });     
-            onValue(placar_geral_db, (snapshot) => { if (snapshot.val() != placar_geral) setPlacarGeral(snapshot.val()); }); 
+            
 
             onValue(animation_ref, (snapshot) => {
                 let animation = AnimationContext.Animate.animation
