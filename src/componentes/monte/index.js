@@ -1,8 +1,7 @@
 import styles from './styles.module.css'
 import {Frente, Verso} from '../carta'
 import { useState, useContext } from 'react'
-import { onValue, ref } from "firebase/database";
-import { database, set_mao } from "../../lib/baralho"
+import { set_mao } from "../../lib/baralho"
 import AnimationDiv from '../animation';
 import { JogadorContext } from '../AppContext';
 
