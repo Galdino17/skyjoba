@@ -11,6 +11,7 @@ export const partida = ref(database, '/PartidaTeste');
 export const lastUpdated = ref(database, '/PartidaTeste/lastUpdated');
 export const mao_db = ref(database, '/PartidaTeste/mao')
 export const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
+export const teste = ref(database, '/PartidaTeste/Teste')
 
 
 
