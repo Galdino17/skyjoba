@@ -18,9 +18,14 @@ export default function Home() {
        })
        
         if(updatedUseEffect!=updatedAt || Teste=='vazio'){
-            onValue(teste, (snapshot) => {if (snapshot.val() != Teste) setTeste(snapshot.val())})
+            onValue(teste, (snapshot) => {
+                if (snapshot.val() != Teste) setTeste(snapshot.val())
+                console.log('--')
+                console.log(snapshot)
+                console.log('--')
+            })
             setUpdated(updatedUseEffect)
-            console.log(Teste)
+            console.log(JSON.stringify(Teste) )
             console.log("Updated At: "+updatedUseEffect)
 
         }
