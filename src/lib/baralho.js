@@ -35,7 +35,11 @@ export async function get_firebase (path) {
 export async function Teste_todos () {
     const caminho = query(ref(database, 'PartidaTeste/Teste'));
     let retorno
-    await get(caminho).then(data => retorno = data)
+    await get(caminho).then(data => {
+        console.log("kk-")
+        console.log(data)
+        retorno = data
+    })
     return retorno
 
 }
