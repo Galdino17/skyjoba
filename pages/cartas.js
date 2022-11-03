@@ -1,6 +1,6 @@
 import Naipe from "../src/componentes/naipe"
 import styles from '../styles/cartas.module.css'
-import { teste, lastUpdated, partida as partida_ref } from "../src/lib/baralho"
+import { teste, lastUpdated, get_firebase } from "../src/lib/baralho"
 import { onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 
@@ -18,12 +18,7 @@ export default function Home() {
        })
        
         if(updatedUseEffect!=updatedAt || Teste=='vazio'){
-            onValue(teste, (snapshot) => {
-                if (snapshot.val() != Teste) setTeste(snapshot.val())
-                console.log('--')
-                console.log(snapshot)
-                console.log('--')
-            })
+            get_firebase('PartidaTeste/Teste').then(retorno => console.log(retorno))
             setUpdated(updatedUseEffect)
             console.log(JSON.stringify(Teste) )
             console.log("Updated At: "+updatedUseEffect)

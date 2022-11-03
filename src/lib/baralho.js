@@ -22,7 +22,7 @@ async function set_firebase (path, info) {
 
 }
 
-async function get_firebase (path) {
+export async function get_firebase (path) {
     const caminho = ref(database, path);
     let retorno
     await get(caminho).then((snapshot) => retorno = snapshot.val())
