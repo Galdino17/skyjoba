@@ -1,6 +1,6 @@
 import Naipe from "../src/componentes/naipe"
 import styles from '../styles/cartas.module.css'
-import { teste, lastUpdated, get_firebase } from "../src/lib/baralho"
+import { teste, lastUpdated, get_firebase, get_firebase_by_vercel } from "../src/lib/baralho"
 import { onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 
@@ -25,9 +25,16 @@ export default function Home() {
                 console.log(JSON.stringify(retorno) )
                 console.log("Finished")
             })
+
+            get_firebase_by_vercel('PartidaTeste/Teste').then(retorno => {
+                console.log("Promisse")
+                console.log(retorno)
+                console.log("Jsoned")
+                console.log(JSON.stringify(retorno) )
+                console.log("Finished")
+            })
+
             setUpdated(updatedUseEffect)
-            console.log(JSON.stringify(Teste) )
-            console.log("Updated At: "+updatedUseEffect)
 
         }
         

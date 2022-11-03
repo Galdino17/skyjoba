@@ -30,6 +30,15 @@ export async function get_firebase (path) {
 
 }
 
+export async function get_firebase_by_vercel (path) {
+    const caminho = ref(database, path);
+    let retorno
+    await get(caminho).then(data => retorno = data)
+    return retorno
+
+}
+
+
 async function update_incremento_firebase (path, valor) {
     let resultado = get_firebase(path)
     resultado.then(value_retornado => {
