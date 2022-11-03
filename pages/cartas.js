@@ -18,20 +18,20 @@ export default function Home() {
        })
        
         if(updatedUseEffect!=updatedAt || Teste=='vazio'){
-            get_firebase('PartidaTeste/Teste').then(retorno => {
-                console.log("Promisse")
+            get_firebase('PartidaTeste/Teste/valoo').then(retorno => {
+                console.log("Promisse get Firebase")
                 console.log(retorno)
                 console.log("Jsoned")
                 console.log(JSON.stringify(retorno) )
-                console.log("Finished")
+                console.log("Finished  get Firebase")
             })
 
             get_firebase_by_vercel('PartidaTeste/Teste').then(retorno => {
-                console.log("Promisse")
+                console.log("Promisse get Firebase by vercel")
                 console.log(retorno)
                 console.log("Jsoned")
                 console.log(JSON.stringify(retorno) )
-                console.log("Finished")
+                console.log("Finished get Firebase by vercel")
             })
 
             setUpdated(updatedUseEffect)
