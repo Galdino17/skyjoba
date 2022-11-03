@@ -1,6 +1,6 @@
 
 import { db, app } from "./firebase";
-import { getDatabase, ref, set, onValue, update, get } from "firebase/database";
+import { getDatabase, ref, set, query, update, get } from "firebase/database";
 
 
 export const database = getDatabase();
@@ -29,6 +29,17 @@ export async function get_firebase (path) {
     return retorno
 
 }
+
+
+
+export async function Teste_todos () {
+    const caminho = query(ref(database, 'PartidaTeste/Teste'));
+    let retorno
+    await get(caminho).then(data => retorno = data)
+    return retorno
+
+}
+
 
 export async function get_firebase_by_vercel (path) {
     const caminho = ref(database, path);

@@ -1,6 +1,6 @@
 import Naipe from "../src/componentes/naipe"
 import styles from '../styles/cartas.module.css'
-import { teste, lastUpdated, get_firebase, get_firebase_by_vercel } from "../src/lib/baralho"
+import { teste, lastUpdated, get_firebase, get_firebase_by_vercel, Teste_todos } from "../src/lib/baralho"
 import { onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 
@@ -34,7 +34,14 @@ export default function Home() {
                 console.log("Finished get Firebase by vercel")
             })
 
+            console.log(Teste_todos().then(retorno=>{
+                console.log("kk")
+                console.log(retorno.val())
+                console.log("ksk")
+
+            }))
             setUpdated(updatedUseEffect)
+
 
         }
         
