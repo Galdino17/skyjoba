@@ -18,7 +18,13 @@ export default function Home() {
        })
        
         if(updatedUseEffect!=updatedAt || Teste=='vazio'){
-            get_firebase('PartidaTeste/Teste').then(retorno => console.log(retorno))
+            get_firebase('PartidaTeste/Teste').then(retorno => {
+                console.log("Promisse")
+                console.log(retorno)
+                console.log("Jsoned")
+                console.log(JSON.stringify(retorno) )
+                console.log("Finished")
+            })
             setUpdated(updatedUseEffect)
             console.log(JSON.stringify(Teste) )
             console.log("Updated At: "+updatedUseEffect)
