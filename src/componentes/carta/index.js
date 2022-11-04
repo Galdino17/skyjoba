@@ -1,10 +1,7 @@
-import React, { useState, useContext, useEffect } from "react"
-import ReactDOM from 'react-dom';
+import React, { useState, useContext } from "react"
 import ImageC from "../image"
 import styles from './styles.module.css'
-import { vira_carta, database, set_placar } from "../../lib/baralho"
-
-import { onValue, ref } from "firebase/database";
+import { vira_carta, set_placar } from "../../lib/baralho"
 import { JogadorContext } from "../AppContext";
 
 
@@ -13,8 +10,8 @@ import AnimationDiv from "../animation";
 
 export default function Carta (props){
 
-    const [virada, setVirada] = useState('verso')
-    const [valor, setValor] = useState('verso')
+    const [virada, setVirada] = useState(props.src.status)
+    const valor = props.src.valor
     
     const jogadorContext = useContext(JogadorContext);
     const player = jogadorContext.jogador
@@ -23,33 +20,7 @@ export default function Carta (props){
     const coluna = props.coluna
     const naipe = props.naipe
     const linha = props.linha
-    const carta_db = ref(database, '/PartidaTeste/jogadores/'+naipe+'/cartas/c'+coluna+'/'+linha+'/status')
-    const valor_db = ref(database, '/PartidaTeste/jogadores/'+naipe+'/cartas/c'+coluna+'/'+linha+'/valor')
-
-    useEffect(()=>{
-        
-    onValue(carta_db, (snapshot) => {
-        let status = snapshot.val();
-        if (status != virada) setVirada(status);  
-        console.log(status)
-        });
-
-    
-    onValue(valor_db, (snapshot) => {
-        let value = snapshot.val();
-            if (value != valor) {
-                setTimeout(() => {
-                    setValor(value);
-                    
-                }, 500);
-            }  
-            
-            });
-
-    }, [setValor, setVirada, carta_db, valor_db, valor, virada])
-    
-    
-    
+  
 
     const clickHandler = () => {
         console.log('Você é o '+player+' clicando no '+naipe+' e é a vez do '+ jogadorDaVez)

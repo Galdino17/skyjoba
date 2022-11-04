@@ -1,5 +1,7 @@
 import { createContext } from "react";
 import { useState } from "react";
+import { onValue } from "firebase/database";
+import { verifica_placar_atual, set_placar, partida } from "../../lib/baralho";
 
 export const PlacarContext = createContext();
 export const JogadorContext = createContext();
@@ -24,8 +26,28 @@ export const Provider_Location = ({ children }) => {
 
 export const Provider_Game = ({ children }) => {
   const [updated, setUpdated] = useState(1)
+  const [infoPartida, setInfoPartida] = useState('')
+  onValue(partida, (snapshot) => {
+    if (snapshot.val().lastUpdated != updated) {
+
+        setUpdated(snapshot.val().lastUpdated)
+        setInfoPartida(snapshot.val())
+        
+        for (let index = 0; index < snapshot.val().jogadores.length; index++) {
+          const jogador =  snapshot.val().jogadores[index];
+          
+          let placar_atual = verifica_placar_atual(jogador)
+          let placar_online = jogador.placar_atual
+          if (placar_atual!=placar_online) set_placar(index, placar_atual)
+          
+        }
+
+        
+      
+    
+  } })
   
-  return <GameContext.Provider value={{ LastUP:{updated, setUpdated} }}>{children}</GameContext.Provider>;
+  return <GameContext.Provider value={{ LastUP:{updated, setUpdated}, partida:{infoPartida, setInfoPartida} }}>{children}</GameContext.Provider>;
 };
 
 ;

@@ -32,26 +32,7 @@ export async function get_firebase (path) {
 
 
 
-export async function Teste_todos () {
-    const caminho = query(ref(database, 'PartidaTeste/Teste'));
-    let retorno
-    await get(caminho).then(data => {
-        console.log("kk-")
-        console.log(data)
-        retorno = data
-    })
-    return retorno
 
-}
-
-
-export async function get_firebase_by_vercel (path) {
-    const caminho = ref(database, path);
-    let retorno
-    await get(caminho).then(data => retorno = data)
-    return retorno
-
-}
 
 
 async function update_incremento_firebase (path, valor) {
@@ -79,10 +60,10 @@ export function SendCarsToServer () {
         quantidade_cartas.map(np => mao_4.push(baralho.pop()))
         let monte = baralho.pop()
         let lixo =  baralho.pop()
-        set_firebase('/PartidaTeste/jogadores/1', distribuirCarta(mao_1))
-        set_firebase('/PartidaTeste/jogadores/2', distribuirCarta(mao_2))
-        set_firebase('/PartidaTeste/jogadores/3', distribuirCarta(mao_3))
-        set_firebase('/PartidaTeste/jogadores/4', distribuirCarta(mao_4))
+        set_firebase('/PartidaTeste/jogadores/0', distribuirCarta(mao_1))
+        set_firebase('/PartidaTeste/jogadores/1', distribuirCarta(mao_2))
+        set_firebase('/PartidaTeste/jogadores/2', distribuirCarta(mao_3))
+        set_firebase('/PartidaTeste/jogadores/3', distribuirCarta(mao_4))
         set_firebase('/PartidaTeste/baralho', baralho)
         set_firebase('/PartidaTeste/monte', monte)
         set_firebase('/PartidaTeste/lixo', lixo)
@@ -93,13 +74,13 @@ export function SendCarsToServer () {
 
 export function distribuirCarta (cartas) {
     let jogador = {'placar_atual':0, 'placar_total':0}
-    let mao = {'c0':[], 'c1':[], 'c2':[], 'c3':[]}
+    let mao = {'0':[], '1':[], '2':[], '3':[]}
     cartas.map((valor, index) => {
         
-        if(index<=2) mao['c0'].push({'valor':valor, 'status':'verso'})
-        else if(index<=5) mao['c1'].push({'valor':valor, 'status':'verso'})
-        else if(index<=8) mao['c2'].push({'valor':valor, 'status':'verso'})
-        else if(index<=11) mao['c3'].push({'valor':valor, 'status':'verso'})
+        if(index<=2) mao['0'].push({'valor':valor, 'status':'verso'})
+        else if(index<=5) mao['1'].push({'valor':valor, 'status':'verso'})
+        else if(index<=8) mao['2'].push({'valor':valor, 'status':'verso'})
+        else if(index<=11) mao['3'].push({'valor':valor, 'status':'verso'})
     })
 
     jogador['cartas'] = mao
@@ -156,43 +137,6 @@ export async function getLastUpdated () {
 
 }
 
-export async function getCartasJogador (jogador, index){
-    
-    
-    let retorno =[]
-    let lastUpdated = await getLastUpdated()
-    const returnBaralho = ref(database, '/PartidaTeste/jogadores/'+jogador+'/cartas/c'+index);
-    await get(returnBaralho).then((snapshot) => {
-        snapshot.val().forEach( value => {
-            retorno.push(value)
-        })
-    })
-    
-        return [retorno, lastUpdated]
-}
-
-
-
-export async function getCartas (jogador){
-    
-    let baralho = await cavar(12)
-    
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas', baralho)
-    let mao = []
-
-    const colunas = [...Array(4)] 
-    const coluna = [...Array(3)]
-    colunas.map( n=> {
-        let coluna_card = []
-        coluna.map( np =>
-            coluna_card.push(baralho.pop())
-        )
-        mao.push(coluna_card)
-
-    })  
-
-    return mao
-}
 
 export function LoadCartas(){
     
@@ -215,11 +159,12 @@ export function LoadCartas(){
 }
 
 export function vira_carta(jogador, coluna, linha, count) {
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/c'+coluna+'/'+linha+'/status',  'frente')
+    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/status',  'frente')
     atualiza_quantidade_viradas(jogador, count)
 
-    if (jogador==4) jogador=0
     jogador = jogador+1
+    if (jogador==4) jogador=0
+    
     set_firebase('/PartidaTeste/jogador_atual',  jogador)
 
 }
@@ -230,6 +175,21 @@ export async function atualiza_quantidade_viradas (jogador, count) {
 
 export function set_mao(valor) {
     set_firebase('/PartidaTeste/mao',  valor)
+}
+
+export function verifica_placar_atual(jogador) {
+    let placar_online = jogador.placar_atual
+    let placar_atual = 0
+    for (let coluna = 0; coluna < jogador.cartas.length; coluna++) {
+        const colunas = jogador.cartas[coluna];
+        for (let linha = 0; linha < colunas.length; linha++) {
+            if (colunas[linha].status=='frente') placar_atual = placar_atual + colunas[linha].valor
+            
+        }
+        
+    }
+    return placar_atual
+    
 }
 
 export async function verifica_placar(jogador_n) {

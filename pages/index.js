@@ -8,21 +8,11 @@ import { logar } from '../src/lib/firebase';
 let socket;
 
 const Home = () => {
-  const [input, setInput] = useState([])
   const [carta, setCava] = useState('vazio')
   
   
   
 
-  useEffect(() => {
-    
-
-
-    return () => {
-      
-      
-    } 
-  });
 
   const handleCavar = () => {
     setCava(cavar())
@@ -32,8 +22,6 @@ const Home = () => {
     logar()
     
   }
-
-
 
  
 
