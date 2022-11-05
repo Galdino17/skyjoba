@@ -16,9 +16,9 @@ export const teste = ref(database, '/PartidaTeste/Teste')
 
 
 
-async function set_firebase (path, info) {
+async function set_firebase (path, info, atualiza=true) {
     set(ref(database, path), info)
-    set(ref(database, '/PartidaTeste/lastUpdated'), Date())
+    if (atualiza) set(ref(database, '/PartidaTeste/lastUpdated'), Date())
 
 }
 
@@ -29,7 +29,6 @@ export async function get_firebase (path) {
     return retorno
 
 }
-
 
 
 
@@ -52,23 +51,29 @@ export function SendCarsToServer () {
         let mao_2= []
         let mao_3 =[]
         let mao_4 = []
+        let monte_lixo =['vazio']
+        let monte = baralho.pop()
+        let lixo = baralho.pop()
 
 
         quantidade_cartas.map(np => mao_1.push(baralho.pop()))
         quantidade_cartas.map(np => mao_2.push(baralho.pop()))
         quantidade_cartas.map(np => mao_3.push(baralho.pop()))
         quantidade_cartas.map(np => mao_4.push(baralho.pop()))
-        let monte = baralho.pop()
-        let lixo =  baralho.pop()
-        set_firebase('/PartidaTeste/jogadores/0', distribuirCarta(mao_1))
-        set_firebase('/PartidaTeste/jogadores/1', distribuirCarta(mao_2))
-        set_firebase('/PartidaTeste/jogadores/2', distribuirCarta(mao_3))
-        set_firebase('/PartidaTeste/jogadores/3', distribuirCarta(mao_4))
-        set_firebase('/PartidaTeste/baralho', baralho)
-        set_firebase('/PartidaTeste/monte', monte)
-        set_firebase('/PartidaTeste/lixo', lixo)
-        set_firebase('/PartidaTeste/mao', 'vazio')
-        set_firebase('/PartidaTeste/jogador_atual', 1)
+        
+        monte_lixo.push(lixo) 
+
+        set_firebase('/PartidaTeste/jogadores/0', distribuirCarta(mao_1), false)
+        set_firebase('/PartidaTeste/jogadores/1', distribuirCarta(mao_2), false)
+        set_firebase('/PartidaTeste/jogadores/2', distribuirCarta(mao_3), false)
+        set_firebase('/PartidaTeste/jogadores/3', distribuirCarta(mao_4), false)
+        set_firebase('/PartidaTeste/baralho', baralho, false)
+        set_firebase('/PartidaTeste/monte', monte, false)
+        set_firebase('/PartidaTeste/mao', 'vazio', false)
+        set_firebase('/PartidaTeste/jogador_atual', 0, false)
+        set_firebase('/PartidaTeste/monte_lixo', monte_lixo, false)
+        set_firebase('/PartidaTeste/lixo', lixo, false)
+        set_firebase('/PartidaTeste/acao', 'cavar')
         
 }
 
@@ -97,6 +102,26 @@ export async function set_placar(jogador, valor){
 
     // })
     
+}
+
+
+
+export async function set_placar_atual(jogador, valor){
+    
+    set_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor, false)
+    // let resultado = get_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual')
+    // resultado.then(value_retornado => {
+    //     let valor_atualizado = value_retornado + valor
+    //     set_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor_atualizado)
+
+    // })
+    
+}
+
+export async function descartar (monte) {
+    set_firebase('/PartidaTeste/monte_lixo', monte, false)
+    set_firebase('/PartidaTeste/lixo', monte.at(-1), false)
+
 }
 
 
@@ -165,7 +190,8 @@ export function vira_carta(jogador, coluna, linha, count) {
     jogador = jogador+1
     if (jogador==4) jogador=0
     
-    set_firebase('/PartidaTeste/jogador_atual',  jogador)
+    set_firebase('/PartidaTeste/jogador_atual',  jogador, false)
+    setAcao('cavar')
 
 }
 
@@ -173,17 +199,21 @@ export async function atualiza_quantidade_viradas (jogador, count) {
     update_incremento_firebase('/PartidaTeste/jogadores/'+jogador+'/viradas', count)
 }
 
-export function set_mao(valor) {
+export function setMao(valor, monte, ultimoLixo) {
     set_firebase('/PartidaTeste/mao',  valor)
+    if (monte=='lixo') set_firebase('/PartidaTeste/lixo', ultimoLixo)
+}
+
+export function setAcao(valor) {
+    set_firebase('/PartidaTeste/acao',  valor)
 }
 
 export function verifica_placar_atual(jogador) {
-    let placar_online = jogador.placar_atual
     let placar_atual = 0
     for (let coluna = 0; coluna < jogador.cartas.length; coluna++) {
         const colunas = jogador.cartas[coluna];
         for (let linha = 0; linha < colunas.length; linha++) {
-            if (colunas[linha].status=='frente') placar_atual = placar_atual + colunas[linha].valor
+            if (colunas[linha].status=='frente') placar_atual = placar_atual + parseInt(colunas[linha].valor) 
             
         }
         

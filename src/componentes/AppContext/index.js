@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { useState } from "react";
 import { onValue } from "firebase/database";
-import { verifica_placar_atual, set_placar, partida } from "../../lib/baralho";
+import { verifica_placar_atual, set_placar_atual, partida } from "../../lib/baralho";
 
 export const PlacarContext = createContext();
 export const JogadorContext = createContext();
@@ -38,7 +38,8 @@ export const Provider_Game = ({ children }) => {
           
           let placar_atual = verifica_placar_atual(jogador)
           let placar_online = jogador.placar_atual
-          if (placar_atual!=placar_online) set_placar(index, placar_atual)
+          if (placar_atual!=placar_online) set_placar_atual(index, placar_atual)
+         
           
         }
 

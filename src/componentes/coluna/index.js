@@ -13,7 +13,7 @@ return (
  
         {cartas.map( (valor_carta, index) => (
             
-                                <Carta key={index} src={valor_carta} naipe={props.naipe} coluna={index} linha={index} atual={props.atual}/>
+                                <Carta key={index} src={valor_carta} naipe={props.naipe} coluna={props.coluna} linha={index} atual={props.atual}/>
                             
 
                             )

@@ -38,7 +38,7 @@ export default function Naipe(props) {
                 {colunas.map((cartas_coluna, index) => (
                     
                     <div key={index}>
-                        <Coluna naipe={props.naipe} cartas={cartas_coluna} atual={jogador_atual} player={player} />
+                        <Coluna naipe={props.naipe} cartas={cartas_coluna} coluna={index} atual={jogador_atual} player={player} />
                     </div>
 
 
