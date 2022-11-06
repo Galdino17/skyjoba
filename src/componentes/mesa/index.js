@@ -11,6 +11,7 @@ import { GameContext } from "../AppContext";
 export default  function Mesa(props) {
     const ContextoGame = useContext(GameContext);
     const [jogadores, setJogadores] = useState([])
+    console.log("Renderizou")
 
     useEffect(() => {
         if (!!ContextoGame.partida.infoPartida.jogadores) {

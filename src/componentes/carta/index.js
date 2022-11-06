@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react"
 import ImageC from "../image"
 import styles from './styles.module.css'
-import { vira_carta, setAcao, setMao, descartar } from "../../lib/baralho"
+import { vira_carta, contar_cartas, descartar, atualizaJogadorAtual, trocarValorDaCarta } from "../../lib/baralho"
 import { GameContext, JogadorContext } from "../AppContext";
 
 
@@ -18,9 +18,9 @@ export default function Carta (props){
         const player = jogadorContext.jogador
         const jogadorDaVez = jogadorContext.Atual.atual
     
-    const ContextoGame = useContext(GameContext)
-        const mao = ContextoGame.partida.infoPartida.mao
-        const acao = ContextoGame.partida.infoPartida.acao
+    const ContextoGame = useContext(GameContext).partida.infoPartida
+        const mao = ContextoGame.mao
+        const acao = ContextoGame.acao
     
     const coluna = props.coluna
     const naipe = props.naipe
@@ -28,32 +28,27 @@ export default function Carta (props){
     
 
     const descartar_carta = (mao) => {
-        let monte_lixo = ContextoGame.partida.infoPartida.monte_lixo
+        let monte_lixo = ContextoGame.monte_lixo
         monte_lixo.push(mao)
         descartar(monte_lixo)
     }
 
     const clickHandler = () => {
         if (player==jogadorDaVez && player==naipe){
-
-            if (mao=='vazio') {
-                if (acao!='cavar'){
+                if (acao=='virar'){
                     if (virada=='verso') vira_carta(naipe, coluna, linha, 1)
-                    
+                    atualizaJogadorAtual(naipe)
+                }
+
+                if (acao=='descartar'){
+                    trocarValorDaCarta(naipe, coluna, linha, mao)
+                    atualizaJogadorAtual(naipe)
+                    descartar_carta(valor)
                 }
                 
-    
             }
     
-            // Cavar e trocar
-            else {
-                
-                vira_carta(naipe, coluna, linha, 1)
-                
-                descartar_carta(mao)
-                setMao('vazio')
-    
-            }
+          
 
 
         }
@@ -61,7 +56,7 @@ export default function Carta (props){
         
         
        
-       }
+       
     
 
     let style_carta = styles.carta

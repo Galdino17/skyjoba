@@ -18,6 +18,10 @@ export const teste = ref(database, '/PartidaTeste/Teste')
 
 async function set_firebase (path, info, atualiza=true) {
     set(ref(database, path), info)
+
+
+    // Só atualizar lastUpdate com mudança de ação
+
     if (atualiza) set(ref(database, '/PartidaTeste/lastUpdated'), Date())
 
 }
@@ -126,17 +130,11 @@ export async function descartar (monte) {
 
 
 
-export async function cavar () {
+export async function cavar (baralho) {
     
-
-    let baralho = await getBaralho()
-    let carta = baralho.pop()
-
-    update(ref(database, '/PartidaTeste'), {
-        baralho: baralho
-    })
-    
-    return carta
+    let carta_cavada = baralho.pop()
+    set_firebase('/PartidaTeste/baralho', baralho)
+    set_firebase('/PartidaTeste/monte', carta_cavada, false)
 
 }
 
@@ -185,8 +183,32 @@ export function LoadCartas(){
 
 export function vira_carta(jogador, coluna, linha, count) {
     set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/status',  'frente')
-    atualiza_quantidade_viradas(jogador, count)
+    atualiza_quantidade_viradas(jogador, count)  
+}
 
+export function trocarValorDaCarta(jogador, coluna, linha, valor) {
+    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/status',  'frente', false)
+    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/valor',  valor)
+    setMao('vazio')
+    
+
+}
+
+export function descartarColuna(cartas, naipe, col){
+    // Essa função tem que ser chamada no Naipe 
+    if (cartas[0].status=='frente' && cartas[0].status == cartas[1].status && cartas[0].status == cartas[2].status){
+        console.log('coluna %d do naipe %d está toda virada', col, naipe)
+        if (cartas[0].valor == cartas[1].valor && cartas[0].valor == cartas[2].valor){
+            console.log('descarta')
+        }
+    }
+  
+
+
+}
+
+
+export function atualizaJogadorAtual(jogador){
     jogador = jogador+1
     if (jogador==4) jogador=0
     

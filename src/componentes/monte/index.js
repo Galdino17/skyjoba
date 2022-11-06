@@ -1,29 +1,29 @@
 import styles from './styles.module.css'
 import {Frente, Verso} from '../carta'
 import { useContext, useState, useEffect } from 'react'
-import { setMao, setAcao } from "../../lib/baralho"
+import { setMao, setAcao, descartar, cavar } from "../../lib/baralho"
 import AnimationDiv from '../animation';
 import { JogadorContext, GameContext } from '../AppContext';
 
 export default function Monte(props) {
-    const ContextoGame = useContext(GameContext);
+    const InfoPartida = useContext(GameContext).partida.infoPartida;
         const [cartaUltimoLixo, setUltimoCartaLixo] = useState('vazio')
         
-        const cartaLixo = ContextoGame.partida.infoPartida.lixo
-        const cartaMonte = ContextoGame.partida.infoPartida.monte
-        const jogador_atual = ContextoGame.partida.infoPartida.jogador_atual
-        const carta = ContextoGame.partida.infoPartida.mao
+        const cartaLixo = InfoPartida.lixo
+        const cartaMonte = InfoPartida.monte
+        const jogador_atual = InfoPartida.jogador_atual
+        const carta = InfoPartida.mao
         
 
     useEffect(() => {
-        if (!!ContextoGame.partida.infoPartida.monte_lixo) {
-            let monteUltimoLixo = ContextoGame.partida.infoPartida.monte_lixo.at(-2)
+        if (!!InfoPartida.monte_lixo) {
+            let monteUltimoLixo = InfoPartida.monte_lixo.at(-2)
              if (cartaUltimoLixo != monteUltimoLixo) setUltimoCartaLixo(monteUltimoLixo)
              
             
         }
     }
-    , [ContextoGame])
+    , [InfoPartida])
 
 
 
@@ -39,14 +39,25 @@ export default function Monte(props) {
 
 
 const handleClick = (carta, monte) => {
-    if (player==jogadorDaVez && ContextoGame.partida.infoPartida.mao=='vazio'){
-        
-        setMao(carta, monte, cartaUltimoLixo)
-        setAcao('agir')
+    console.log(InfoPartida.acao, monte)
+    if (player==jogadorDaVez)
+        if (InfoPartida.mao=='vazio'){
+            setMao(carta, monte, cartaUltimoLixo)
+            setAcao('descartar')
+        }
+        if (InfoPartida.acao=='descartar' && monte=='lixo'){
+            let monte_lixo = InfoPartida.monte_lixo
+            monte_lixo.push(InfoPartida.mao)
+            descartar(monte_lixo)
+            setMao('vazio')
+            setAcao('virar')
+        }
+        if (monte=='monte') cavar(InfoPartida.baralho)
     }
+    
 
 
-}
+
 
 const Titulo = ({Texto}) =>{
     return(<div className={styles.titulo}> {Texto} </div>)

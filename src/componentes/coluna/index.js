@@ -1,11 +1,12 @@
 import React from "react";
 import Carta from "../carta";
 import styles from './styles.module.css'
+import { descartarColuna } from "../../lib/baralho";
 
 export default function Coluna (props){
     let cartas = props.cartas
     let coluna = (props.player==props.naipe) ? styles.coluna : `${styles.coluna} ${styles.coluna_atual}`
-
+    descartarColuna(cartas, props.naipe, props.coluna)
 
 return (
     <div className={coluna} >

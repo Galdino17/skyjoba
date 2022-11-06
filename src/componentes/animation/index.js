@@ -10,7 +10,7 @@ export default function AnimationDiv ({children, id}){
     const Mao = useContext(LocationContext).Mao 
     const Animate = useContext(LocationContext).Animate 
     const inputRef = useRef();
-    const [clicked, setClicked] = useState(false)
+
     const [animated, setAnimated] = useState('')
     const [xmoved, setXmoved] = useState('0')
     const [ymoved, setYmoved] = useState('0')
@@ -76,23 +76,7 @@ export default function AnimationDiv ({children, id}){
         
         
     }
-
-    useEffect(() => {
-        if(false){
-        if (id=='lixo') Lixo.setLixo(x_y())
-        if (id=='mao') Mao.setMao(x_y())
-        if ((id=='mao' || Animate.animation.slice(2,7)==id) && Animate.animation!=animated ) {
-            move(Lixo.lixo)
-            move_de_mao(Animate.animation.slice(2,7))
-            setAnimated(Animate.animation)
-        }
-        //Se for igual a l, foi cavada do lixo 
-        if (Animate.animation.slice(0,1)=='l' && Animate.animation!=animated ) move_to_lixo()
-        
-    }
-    }, [Lixo.setLixo, Mao.setMao, id, Animate.animation, animated])
     
-
     const variants = {
         move: { x:xmoved, y:ymoved, transition: { duration: 0.5 } },
         move_back: { x:xmoved_, y:ymoved_, transition: { delay:  0.5, duration: 0.0005  }},
