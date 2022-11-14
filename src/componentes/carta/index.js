@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react"
+import React, {  useContext } from "react"
 import ImageC from "../image"
 import styles from './styles.module.css'
-import { vira_carta, contar_cartas, descartar, atualizaJogadorAtual, trocarValorDaCarta } from "../../lib/baralho"
+import { vira_carta, descartar, atualizaJogadorAtual, trocarValorDaCarta } from "../../lib/baralho"
 import { GameContext, JogadorContext } from "../AppContext";
 
 
@@ -9,22 +9,24 @@ import AnimationDiv from "../animation";
 
 
 export default function Carta (props){
-
-    //const [virada, setVirada] = useState(props.src.status)
     const valor = props.src.valor
     const virada = props.src.status
     
-    const jogadorContext = useContext(JogadorContext);
-        const player = jogadorContext.jogador
-        const jogadorDaVez = jogadorContext.Atual.atual
-    
-    const ContextoGame = useContext(GameContext).partida.infoPartida
+    const Game = useContext(GameContext)
+    const ContextoGame = Game.partida.infoPartida
         const mao = ContextoGame.mao
         const acao = ContextoGame.acao
+    const Animation = Game.animate
+    const animando = Game.animando
     
+    const jogadorContext = Game.Jogadores;
+        const player = jogadorContext.jogador
+        const jogadorDaVez = jogadorContext.atual
+        
     const coluna = props.coluna
     const naipe = props.naipe
     const linha = props.linha
+    
     
 
     const descartar_carta = (mao) => {
@@ -34,18 +36,37 @@ export default function Carta (props){
     }
 
     const clickHandler = () => {
-        if (player==jogadorDaVez && player==naipe){
-                if (acao=='virar'){
-                    if (virada=='verso') vira_carta(naipe, coluna, linha, 1)
-                    atualizaJogadorAtual(naipe)
+        if (player==jogadorDaVez && player==naipe && !animando){
+            
+                if (ContextoGame.statusGlobal == 'inicio') {
+                    if (virada=='verso') {
+                        vira_carta(naipe, coluna, linha)
+                        atualizaJogadorAtual(naipe, ContextoGame)
+                        Game.setAtualiza(true)
+                    }
+        
+                } else switch (acao) {
+                    case 'virar':
+                        if (virada=='verso') vira_carta(naipe, coluna, linha)
+                        atualizaJogadorAtual(naipe, ContextoGame)
+                        Game.setAtualiza(true)
+                        break
+                    
+                    case 'descartar':
+                    case 'trocar':
+                        trocarValorDaCarta(naipe, coluna, linha, mao)
+                        atualizaJogadorAtual(naipe, ContextoGame)
+                        descartar_carta(valor)
+                        Animation.setAnimation('c'+naipe+'-'+coluna+'-'+linha)
+                        Game.setAtualiza(true)
+                        break
+
+                    case 'cavar':
+                        Game.setAtualiza(false)
+                        Animation.setAnimation('monte-lixo')
+                        break
                 }
 
-                if (acao=='descartar'){
-                    trocarValorDaCarta(naipe, coluna, linha, mao)
-                    atualizaJogadorAtual(naipe)
-                    descartar_carta(valor)
-                }
-                
             }
     
           

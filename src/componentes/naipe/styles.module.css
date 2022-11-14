@@ -1,3 +1,9 @@
+.root {
+    --laranja: #000102;
+    --white: #ffffff;
+    --border: 14px
+  }
+
 .cartas_tab {
     
     display: flex;
@@ -6,12 +12,12 @@
 
 
     /* width: 20vw;
-    height: 32vh;
+    height: 32vh; ;
     */
-    border-color: #ff9b2a;
+    border-radius: 14px;
+    border-color: #ff9b2a; 
     background-color: rgb(208, 185, 230);
     justify-content: space-around;
-    border-radius: 14px;
   
   
   }
@@ -35,6 +41,14 @@
 
 }
 
+.placarFinalizado {
+    font-weight:normal;
+    background-color: #a59685;
+    font-weight: bold;
+    color: #000;
+
+}
+
 .titulo {
     border-radius: 14px;
     background-color: blueviolet;
@@ -42,9 +56,13 @@
 }
 
 .titulo_atual {
-    border-radius: 14px;
     background-color: #ff9b2a;
-    text-align: center;
+}
+
+.tituloFinalizado {
+    background-color: #a59685;
+    color: #000;
+    font-weight: bold;
 }
 
 .naipe {

@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 
 import Mesa from '../src/componentes/mesa'
 import {SendCarsToServer, cavar} from '../src/lib/baralho'
-import {Provider_jogador, Provider_Location, Provider_Game} from '../src/componentes/AppContext'
+import { Provider_Game} from '../src/componentes/AppContext'
 import { logar } from '../src/lib/firebase';
 
 let socket;
@@ -32,11 +32,7 @@ const Home = () => {
   <button onClick={() => handleCavar()}> Cavar  </button>
   <button onClick={() => Logar()}> Logar  </button>
   <Provider_Game>
-  <Provider_Location>
-  <Provider_jogador>
     <Mesa/>
-  </Provider_jogador>
-  </Provider_Location>
   </Provider_Game>
   
   

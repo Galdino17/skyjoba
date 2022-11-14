@@ -3,47 +3,58 @@ import {Frente, Verso} from '../carta'
 import { useContext, useState, useEffect } from 'react'
 import { setMao, setAcao, descartar, cavar } from "../../lib/baralho"
 import AnimationDiv from '../animation';
-import { JogadorContext, GameContext } from '../AppContext';
+import { GameContext } from '../AppContext';
 
 export default function Monte(props) {
-    const InfoPartida = useContext(GameContext).partida.infoPartida;
+    const ContextoGame = useContext(GameContext) 
+    const InfoPartida = ContextoGame.partida.infoPartida;
         const [cartaUltimoLixo, setUltimoCartaLixo] = useState('vazio')
         
         const cartaLixo = InfoPartida.lixo
         const cartaMonte = InfoPartida.monte
         const jogador_atual = InfoPartida.jogador_atual
         const carta = InfoPartida.mao
+    
+    const Animation = ContextoGame.animate
+    const Local = ContextoGame.local
         
 
     useEffect(() => {
+        
         if (!!InfoPartida.monte_lixo) {
+            //console.log("Effect Lixo")
             let monteUltimoLixo = InfoPartida.monte_lixo.at(-2)
              if (cartaUltimoLixo != monteUltimoLixo) setUltimoCartaLixo(monteUltimoLixo)
              
             
         }
     }
-    , [InfoPartida])
+    , [InfoPartida, cartaUltimoLixo])
 
 
 
 
-    const jogadorContext = useContext(JogadorContext);
+    const jogadorContext = ContextoGame.Jogadores;
         jogadorContext.setJogador(jogador_atual)
-        jogadorContext.Atual.setAtual(jogador_atual)
+        jogadorContext.setAtual(jogador_atual)
         const player = jogador_atual
-        const jogadorDaVez = jogadorContext.Atual.atual
+        const jogadorDaVez = jogadorContext.atual
 
     
 
 
-
 const handleClick = (carta, monte) => {
-    console.log(InfoPartida.acao, monte)
-    if (player==jogadorDaVez)
-        if (InfoPartida.mao=='vazio'){
+    if (player==jogadorDaVez && InfoPartida.statusGlobal!='inicio') {
+        if (InfoPartida.acao=='cavar'){
             setMao(carta, monte, cartaUltimoLixo)
-            setAcao('descartar')
+            if (monte=='monte') {
+                setAcao('descartar')
+                 Animation.setAnimation('monte-to-mao')
+                }
+            else {
+                setAcao('trocar')
+                Animation.setAnimation('lixo-to-mao')
+            }
         }
         if (InfoPartida.acao=='descartar' && monte=='lixo'){
             let monte_lixo = InfoPartida.monte_lixo
@@ -54,7 +65,7 @@ const handleClick = (carta, monte) => {
         }
         if (monte=='monte') cavar(InfoPartida.baralho)
     }
-    
+}
 
 
 

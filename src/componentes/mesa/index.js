@@ -45,8 +45,6 @@ return (
             <Monte />
         </div>
 
-        <input type='text' defaultValue={ContextoGame.LastUP.updated} ></input>
-
     </div>
 )
 
