@@ -11,7 +11,7 @@ import { GameContext } from "../AppContext";
 export default  function Mesa(props) {
     const ContextoGame = useContext(GameContext);
     const [jogadores, setJogadores] = useState([])
-    console.log("Renderizou")
+    //console.log("Renderizou")
 
     useEffect(() => {
         if (!!ContextoGame.partida.infoPartida.jogadores) {
@@ -43,6 +43,7 @@ return (
         
         <div>
             <Monte />
+            <h2>{ContextoGame.partida.infoPartida.statusGlobal} - {ContextoGame.Jogadores.jogador}</h2>
         </div>
 
     </div>

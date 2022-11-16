@@ -16,8 +16,7 @@ export default function Carta (props){
     const ContextoGame = Game.partida.infoPartida
         const mao = ContextoGame.mao
         const acao = ContextoGame.acao
-    const Animation = Game.animate
-    const animando = Game.animando
+    
     
     const jogadorContext = Game.Jogadores;
         const player = jogadorContext.jogador
@@ -36,20 +35,18 @@ export default function Carta (props){
     }
 
     const clickHandler = () => {
-        if (player==jogadorDaVez && player==naipe && !animando){
+        if (player==jogadorDaVez && player==naipe){
             
                 if (ContextoGame.statusGlobal == 'inicio') {
                     if (virada=='verso') {
                         vira_carta(naipe, coluna, linha)
                         atualizaJogadorAtual(naipe, ContextoGame)
-                        Game.setAtualiza(true)
                     }
         
                 } else switch (acao) {
                     case 'virar':
                         if (virada=='verso') vira_carta(naipe, coluna, linha)
                         atualizaJogadorAtual(naipe, ContextoGame)
-                        Game.setAtualiza(true)
                         break
                     
                     case 'descartar':
@@ -57,13 +54,9 @@ export default function Carta (props){
                         trocarValorDaCarta(naipe, coluna, linha, mao)
                         atualizaJogadorAtual(naipe, ContextoGame)
                         descartar_carta(valor)
-                        Animation.setAnimation('c'+naipe+'-'+coluna+'-'+linha)
-                        Game.setAtualiza(true)
                         break
 
                     case 'cavar':
-                        Game.setAtualiza(false)
-                        Animation.setAnimation('monte-lixo')
                         break
                 }
 

@@ -15,9 +15,7 @@ export default function Monte(props) {
         const jogador_atual = InfoPartida.jogador_atual
         const carta = InfoPartida.mao
     
-    const Animation = ContextoGame.animate
-    const Local = ContextoGame.local
-        
+
 
     useEffect(() => {
         
@@ -49,11 +47,9 @@ const handleClick = (carta, monte) => {
             setMao(carta, monte, cartaUltimoLixo)
             if (monte=='monte') {
                 setAcao('descartar')
-                 Animation.setAnimation('monte-to-mao')
                 }
             else {
                 setAcao('trocar')
-                Animation.setAnimation('lixo-to-mao')
             }
         }
         if (InfoPartida.acao=='descartar' && monte=='lixo'){

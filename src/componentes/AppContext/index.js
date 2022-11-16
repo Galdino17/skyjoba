@@ -15,26 +15,21 @@ export const Provider_Game = ({ children }) => {
   const [updated, setUpdated] = useState('')
   const [infoPartida, setInfoPartida] = useState('')
 
-  const [animation, setAnimation] = useState('')
-  const [animando, setAnimando] = useState(false)
-  const [atualiza, setAtualiza] = useState(true)
 
+  const jogadorQueBateu = useRef(0)
   const [jogador, setJogador] = useState(1)
   const [atual, setAtual] = useState(1)
   
   onValue(partida, (snapshot) => {
     if (snapshot.val().lastUpdated != updated) {
-        if (atualiza) {
+        
           setUpdated(snapshot.val().lastUpdated)
           setInfoPartida(snapshot.val()) 
-          setAtualiza(false)
+          
 
-        }
-         
-    
   } })
   
-  return <GameContext.Provider value={{ partida:{infoPartida, setInfoPartida}, animate:{animation, setAnimation}, locais:{}, stautsGlobal:{}, animando, setAnimando, setAtualiza, Jogadores: { jogador, setJogador, atual, setAtual}  }}>{children}</GameContext.Provider>;
+  return <GameContext.Provider value={{ partida:{infoPartida, setInfoPartida}, locais:{}, Jogadores: { jogador, setJogador, atual, setAtual, jogadorQueBateu} }}>{children}</GameContext.Provider>;
 };
 
 // Status Global

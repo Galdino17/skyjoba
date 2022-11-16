@@ -4,7 +4,7 @@ import styles from './styles.module.css'
 import Coluna from "../coluna";
 
 import {  GameContext } from "../AppContext";
-import { atualiza_quantidade_viradas } from "../../lib/baralho"
+import { atualiza_quantidade_viradas, viraTodasCastas } from "../../lib/baralho"
 
 
 
@@ -21,6 +21,7 @@ export default function Naipe(props) {
     const colunas = props.infoNaipe.cartas
     const monte = ContextoGame.partida.infoPartida.baralho
     const quantidadeViradas = props.infoNaipe.viradas
+    const statusGlobal = ContextoGame.partida.infoPartida.statusGlobal
         
      
     
@@ -32,9 +33,7 @@ export default function Naipe(props) {
     let placarStyle = (quantidadeViradas!=0) ? placar : `${styles.placar}  ${styles.placarFinalizado}`
     let tituloStyle = (quantidadeViradas!=0) ? titulo : `${styles.placar}  ${styles.tituloFinalizado}`
 
-    atualiza_quantidade_viradas(colunas, props.naipe)
-     
-    
+    atualiza_quantidade_viradas(colunas, props.naipe, statusGlobal)
     
 
 
