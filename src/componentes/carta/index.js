@@ -35,6 +35,7 @@ export default function Carta (props){
     }
 
     const clickHandler = () => {
+        console.log("entendi nada")
         if (player==jogadorDaVez && player==naipe){
             
                 if (ContextoGame.statusGlobal == 'inicio') {

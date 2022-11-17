@@ -19,6 +19,11 @@
   color: inherit;
 }
 
+.hidden {
+  width: 0%;
+  z-index: 1;
+}
+
 .cardsWrapper {
   display: grid;
   justify-content: center;
@@ -132,12 +137,15 @@
   transform: scale(1);
 }
 
+
+
 .linhaPlacar {
-    background-color: #ddd;
+    background-color: #dee;
     margin-left: 10%;
     margin-right: 10%;
     margin-top: 2%;
     border-radius: 10px;
+    text-align: center;
 }
 
 
@@ -149,6 +157,7 @@
   background-color: #3c3163;
   border-radius: 5px;
   text-align: center;
+  z-index: 1;
 }
 
 .info {

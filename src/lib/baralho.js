@@ -47,7 +47,7 @@ async function update_incremento_firebase (path, valor) {
 
 }
 
-export function SendCarsToServer (jogadorAtual=0, turno=[0], placares=[0]) {
+export function SendCarsToServer (jogadorAtual=0, turno=[0], placares=[0], timeOut=0) {
         
         let baralho = LoadCartas()
         let quantidade_cartas = [...Array(12)]
@@ -81,7 +81,11 @@ export function SendCarsToServer (jogadorAtual=0, turno=[0], placares=[0]) {
         set_firebase('/PartidaTeste/lixo', lixo)
         set_firebase('/PartidaTeste/statusGlobal', 'inicio')
         set_firebase('/PartidaTeste/turno', turno)
-        set_firebase('/PartidaTeste/acao', 'cavar', true)
+
+        setTimeout(() => {
+            set_firebase('/PartidaTeste/acao', 'cavar', true)
+        }, timeOut);
+        
         
 }
 
@@ -214,7 +218,7 @@ export function descartarColuna(cartas, jogador, coluna, monte){
 }
 
 
-export function atualizaJogadorAtual(atualJogador, Contexto){
+export async function atualizaJogadorAtual(atualJogador, Contexto){
     let proximoJogador
     
     let TodasCartasVisiveis = false
@@ -249,16 +253,14 @@ export function atualizaJogadorAtual(atualJogador, Contexto){
     
     if (Contexto.statusGlobal=='wait' && Contexto.jogadores[proximoJogador].viradas==0) {
         setStatusGlobal('fim')
-
         
         setTimeout(() => {
-            setPlacares(Contexto.jogadorQueBateu).then(placares=>{
-                console.log(placares)
-                SendCarsToServer(Contexto.jogadorQueBateu, Contexto.turno, placares)
+            setPlacares(Contexto.jogadorQueBateu).then( placares => {   
+                SendCarsToServer(Contexto.jogadorQueBateu, Contexto.turno, placares, 1000)
             })
             
             
-        }, 1000);
+        }, 500);
         
  
 
@@ -305,6 +307,7 @@ export async function setPlacares(quemBateu){
             setPlacaresFirebase(quemBateu, total, placaresReturn[quemBateu])
             
         }
+        console.log(placaresReturn)
         return placaresReturn
 
     })
