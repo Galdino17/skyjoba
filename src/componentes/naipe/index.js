@@ -4,7 +4,7 @@ import styles from './styles.module.css'
 import Coluna from "../coluna";
 
 import {  GameContext } from "../AppContext";
-import { atualiza_quantidade_viradas, viraTodasCastas } from "../../lib/baralho"
+import { atualiza_quantidade_viradas, set_placar_atual, verifica_placar_atual } from "../../lib/baralho"
 
 
 
@@ -23,7 +23,8 @@ export default function Naipe(props) {
     const quantidadeViradas = props.infoNaipe.viradas
     const statusGlobal = ContextoGame.partida.infoPartida.statusGlobal
         
-     
+    const placarLocal = verifica_placar_atual(props.infoNaipe,false)
+    if (placarLocal!=placar_atual) set_placar_atual(props.naipe, placarLocal)
     
 
     

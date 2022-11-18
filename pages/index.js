@@ -29,7 +29,7 @@ export default function Home() {
   }
 
   let styleModal = (modalOpen) ? 'modal':'hidden'
-
+  console.log("Precisa verificar o bug do lixo")
   return (
     <>
     

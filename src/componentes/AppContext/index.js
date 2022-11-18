@@ -23,7 +23,7 @@ export const Provider_Game = ({ children }) => {
   
   onValue(partida, (snapshot) => {
     if (snapshot.val().lastUpdated != updated) {
-        
+
           setUpdated(snapshot.val().lastUpdated)
           setInfoPartida(snapshot.val()) 
           

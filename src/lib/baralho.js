@@ -118,8 +118,11 @@ export async function set_placar(jogador, valor){
 
 
 
-export function set_placar_atual(jogador, valor){   
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor)   
+export function set_placar_atual(jogador, valor){  
+    if (typeof(jogador)!='undefined' && typeof(valor)!='undefined') {
+        set_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor)  
+    }
+     
 }
 
 export async function descartar (monte) {
@@ -229,7 +232,6 @@ export async function atualizaJogadorAtual(atualJogador, Contexto, setModal){
 
     }
     
-
     set_placar_atual(atualJogador, verifica_placar_atual(Contexto.jogadores[atualJogador], TodasCartasVisiveis))
 
     
