@@ -14,8 +14,11 @@ import { logar } from '../src/lib/firebase';
 
 export default function Home() {
 
-    const [modalOpen, setModalOpen] = useState(false);
+    
     const ContextoGame = useContext(GameContext);
+    const modalOpen = ContextoGame.modalOpen
+    const setModalOpen = ContextoGame.setModalOpen
+
 
   const close = () => setModalOpen(false);
   const open = () => setModalOpen(true);
@@ -29,9 +32,7 @@ export default function Home() {
 
   return (
     <>
-    <button onClick={() => SendCarsToServer()}> Enviar  </button>
-      <button onClick={() => Logar()}> Logar  </button>
-      <button  onClick={() => (modalOpen ? close() : open())}> Launch  </button>
+    
     <div>
 
     
@@ -52,8 +53,12 @@ export default function Home() {
 
       
 
-
+      <button onClick={() => SendCarsToServer()}> Enviar  </button>
+      <button onClick={() => Logar()}> Logar  </button>
+      <button  onClick={() => (modalOpen ? close() : open())}> Launch  </button> 
     </div>
+
+     
 
     </>
   )

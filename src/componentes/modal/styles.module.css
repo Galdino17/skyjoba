@@ -4,6 +4,13 @@
   --transition-time: 0.5s;
 } */
 
+
+/*
+Site para Gerar CSS
+
+https://www.ocjanssen.nl/labelmaker/ */
+
+
 /* * {
   box-sizing: border-box;
 } */
@@ -24,15 +31,70 @@
   z-index: 1;
 }
 
-.cardsWrapper {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 4rem;
-  padding: 4rem;
-  margin: 0 auto;
-  width: max-content;
+.cardGridSpace {
+  /* //font-size: 3em; */
+  width: 50%;
+  margin-bottom: 1.2rem;
+  margin-left: 25%;
+  margin-right: 25%;
+  /* background-color: #3c3163; */
+  border-radius: 5px;
+  text-align: center;
+  z-index: 1;
+  padding: 0.5em;
+  max-height: 95vh;
+
+  background: linear-gradient(170deg, rgba(49, 57, 73, 0.8) 20%, rgba(49, 57, 73, 0.5) 20%, rgba(49, 57, 73, 0.5) 35%, rgba(41, 48, 61, 0.6) 35%, rgba(41, 48, 61, 0.8) 45%, rgba(31, 36, 46, 0.5) 45%, rgba(31, 36, 46, 0.8) 75%, rgba(49, 57, 73, 0.5) 75%), linear-gradient(45deg, rgba(20, 24, 31, 0.8) 0%, rgba(41, 48, 61, 0.8) 50%, rgba(82, 95, 122, 0.8) 50%, rgba(133, 146, 173, 0.8) 100%) #313949;
+}
+
+.titulo {
+
+  font-family: 'Heebo', sans-serif;
+  font-size: 1.5625rem;
+  font-weight: 200;
+  letter-spacing: 0.46rem;
+  font-style: normal;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background-color: #df1616;
+  border-radius: 0.4375rem;
+  -webkit-border-radius: 0.4375rem;
+  -moz-border-radius: 0.4375rem;
+  padding: 0.6875rem 0.6875rem;
+  border-style: double;
+  border-width: 0.0625rem;
+  border-color: #EF2D56;
+  -webkit-box-shadow: inset -19px -8px 0px -3px rgba(51,51,51,0.39);
+  -moz-box-shadow: inset -19px -8px 0px -3px rgba(51,51,51,0.39);
+  -box-shadow: inset -19px -8px 0px -3px rgba(51,51,51,0.39);
+  
+  }
+
+
+  .divAnimated {
+    background-color: rgb(228, 18, 18);
+    margin-top: auto;
+  }
+
+.linhaPlacar {
+  background-color: #dee;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 2%;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 0.5em;
+}
+
+.buttons {
+  margin: 2%;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 0.5em;
+  display: flex;
+  justify-content: space-around;
 }
 
 .card {
@@ -139,26 +201,10 @@
 
 
 
-.linhaPlacar {
-    background-color: #dee;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 2%;
-    border-radius: 10px;
-    text-align: center;
-}
 
 
-.cardGridSpace {
-  font-size: 3em;
-  margin-bottom: 1.2rem;
-  margin-left: 2rem;
-  margin-right: 2rem;
-  background-color: #3c3163;
-  border-radius: 5px;
-  text-align: center;
-  z-index: 1;
-}
+
+
 
 .info {
   font-size: 1.2em;

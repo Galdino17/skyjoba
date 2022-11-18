@@ -35,25 +35,24 @@ export default function Carta (props){
     }
 
     const clickHandler = () => {
-        console.log("entendi nada")
         if (player==jogadorDaVez && player==naipe){
             
                 if (ContextoGame.statusGlobal == 'inicio') {
                     if (virada=='verso') {
                         vira_carta(naipe, coluna, linha)
-                        atualizaJogadorAtual(naipe, ContextoGame)
+                        atualizaJogadorAtual(naipe, ContextoGame, Game.setModalOpen)
                     }
         
                 } else switch (acao) {
                     case 'virar':
                         if (virada=='verso') vira_carta(naipe, coluna, linha)
-                        atualizaJogadorAtual(naipe, ContextoGame)
+                        atualizaJogadorAtual(naipe, ContextoGame, Game.setModalOpen)
                         break
                     
                     case 'descartar':
                     case 'trocar':
                         trocarValorDaCarta(naipe, coluna, linha, mao)
-                        atualizaJogadorAtual(naipe, ContextoGame)
+                        atualizaJogadorAtual(naipe, ContextoGame, Game.setModalOpen)
                         descartar_carta(valor)
                         break
 

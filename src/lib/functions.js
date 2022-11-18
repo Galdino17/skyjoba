@@ -5,3 +5,14 @@ export function soma_array(array) {
         return sum
     
 }
+
+export function compareMatriz( a, b ) {
+    if ( a.total < b.total ){
+       console.log(a) 
+      return -1;
+    }
+    if ( a.total > b.total ){
+      return 1;
+    }
+    return 0;
+  }

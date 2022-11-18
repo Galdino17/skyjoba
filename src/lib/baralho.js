@@ -58,7 +58,7 @@ export function SendCarsToServer (jogadorAtual=0, turno=[0], placares=[0], timeO
         let monte_lixo =['vazio']
         let monte = baralho.pop()
         let lixo = baralho.pop()
-        let jogador = {'placar_atual':0, 'viradas':13, placares} 
+        let jogador = {'placar_atual':0, 'viradas':13, placares, 'placar_total':soma_array(placares)} 
 
         quantidade_cartas.map(np => mao_1.push(baralho.pop()))
         quantidade_cartas.map(np => mao_2.push(baralho.pop()))
@@ -218,7 +218,7 @@ export function descartarColuna(cartas, jogador, coluna, monte){
 }
 
 
-export async function atualizaJogadorAtual(atualJogador, Contexto){
+export async function atualizaJogadorAtual(atualJogador, Contexto, setModal){
     let proximoJogador
     
     let TodasCartasVisiveis = false
@@ -253,14 +253,17 @@ export async function atualizaJogadorAtual(atualJogador, Contexto){
     
     if (Contexto.statusGlobal=='wait' && Contexto.jogadores[proximoJogador].viradas==0) {
         setStatusGlobal('fim')
+        setModal(true)
         
         setTimeout(() => {
             setPlacares(Contexto.jogadorQueBateu).then( placares => {   
                 SendCarsToServer(Contexto.jogadorQueBateu, Contexto.turno, placares, 1000)
+                
             })
             
             
         }, 500);
+
         
  
 
@@ -307,7 +310,6 @@ export async function setPlacares(quemBateu){
             setPlacaresFirebase(quemBateu, total, placaresReturn[quemBateu])
             
         }
-        console.log(placaresReturn)
         return placaresReturn
 
     })
@@ -315,7 +317,6 @@ export async function setPlacares(quemBateu){
 }
 
 export function setPlacaresFirebase(index, total, placares){
-    console.log(index, total, placares)
     set_firebase('/PartidaTeste/jogadores/'+index+'/placar_total', total) 
     set_firebase('/PartidaTeste/jogadores/'+index+'/placares', placares)
 }

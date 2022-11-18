@@ -19,6 +19,7 @@ export const Provider_Game = ({ children }) => {
   const jogadorQueBateu = useRef(0)
   const [jogador, setJogador] = useState(1)
   const [atual, setAtual] = useState(1)
+  const [modalOpen, setModalOpen] = useState(false);
   
   onValue(partida, (snapshot) => {
     if (snapshot.val().lastUpdated != updated) {
@@ -29,7 +30,7 @@ export const Provider_Game = ({ children }) => {
 
   } })
   
-  return <GameContext.Provider value={{ partida:{infoPartida, setInfoPartida}, locais:{}, Jogadores: { jogador, setJogador, atual, setAtual, jogadorQueBateu} }}>{children}</GameContext.Provider>;
+  return <GameContext.Provider value={{ partida:{infoPartida, setInfoPartida}, locais:{}, Jogadores: { jogador, setJogador, atual, setAtual, jogadorQueBateu}, modalOpen, setModalOpen }}>{children}</GameContext.Provider>;
 };
 
 // Status Global
