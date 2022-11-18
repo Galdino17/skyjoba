@@ -8,7 +8,6 @@ export function soma_array(array) {
 
 export function compareMatriz( a, b ) {
     if ( a.total < b.total ){
-       console.log(a) 
       return -1;
     }
     if ( a.total > b.total ){

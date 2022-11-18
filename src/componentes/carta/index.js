@@ -36,8 +36,9 @@ export default function Carta (props){
 
     const clickHandler = () => {
         if (player==jogadorDaVez && player==naipe){
-            
+                console.log(ContextoGame.statusGlobal)
                 if (ContextoGame.statusGlobal == 'inicio') {
+                    console.log(virada)
                     if (virada=='verso') {
                         vira_carta(naipe, coluna, linha)
                         atualizaJogadorAtual(naipe, ContextoGame, Game.setModalOpen)

@@ -97,7 +97,8 @@ export function distribuirCarta (cartas, jogador) {
     
     cartas.map((valor, index) => {
         // Para debug e teste
-        let status = (index<11) ? 'frente' : 'verso' 
+        //let status = (index<11) ? 'frente' : 'verso' 
+        let status='verso' // Quando acabar de Debugar
         // fim debug
         
         if(index<=2) mao['0'].push({'valor':valor, 'status':status})
@@ -238,11 +239,11 @@ export async function atualizaJogadorAtual(atualJogador, Contexto, setModal){
     set_firebase('/PartidaTeste/jogador_atual',  proximoJogador, false)
    
     //debug
-    if (Contexto.statusGlobal=='inicio') {
-        setStatusGlobal('mid')
-        setTurno()
+    // if (Contexto.statusGlobal=='inicio') {
+    //     setStatusGlobal('mid')
+    //     setTurno()
 
-    }
+    // }
     //fim debug
     
     if (Contexto.statusGlobal=='inicio' && Contexto.jogadores[proximoJogador].viradas==10) {
