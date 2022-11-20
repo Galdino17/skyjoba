@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Backdrop } from "./backdrop";
 import { dropIn } from "./settings";
 import { Placar } from "./placar";
+import { Salas } from "./salas";
 
 
 
@@ -18,7 +19,8 @@ const Modal = ({ handleClose, contexto }) => {
             animate="visible"
             exit="exit"
           >
-            <Placar contexto={contexto} />
+            {/* <Placar contexto={contexto} /> */}
+            <Salas  contexto={contexto} />
           </motion.div>
       </Backdrop>
     );

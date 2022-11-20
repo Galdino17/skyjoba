@@ -15,3 +15,11 @@ export function compareMatriz( a, b ) {
     }
     return 0;
   }
+
+export function JsonToList (jsonObject) {
+  let list = []
+  for (var prop in jsonObject) {
+    list.push({'id':prop, 'value':jsonObject[prop]})
+  }
+  return list
+}

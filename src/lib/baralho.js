@@ -1,18 +1,22 @@
 
 import { db, app } from "./firebase";
-import { getDatabase, ref, set, query, update, get } from "firebase/database";
-import { soma_array } from "./functions";
+import { getDatabase, ref, set, push, update, get, child } from "firebase/database";
+import { JsonToList, soma_array } from "./functions";
+import { async } from "@firebase/util";
 
 
 export const database = getDatabase();
 export const monte = ref(database, '/PartidaTeste/monte');
 export const lixo = ref(database, '/PartidaTeste/lixo');
 export const animation = ref(database, '/PartidaTeste/lastAnimation')
+export const root = ref(database, '/');
 export const partida = ref(database, '/PartidaTeste');
 export const lastUpdated = ref(database, '/PartidaTeste/lastUpdated');
 export const mao_db = ref(database, '/PartidaTeste/mao')
 export const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
 export const teste = ref(database, '/PartidaTeste/Teste')
+
+
 
 
 
@@ -33,8 +37,40 @@ export async function get_firebase (path) {
 
 }
 
+export function EnterRoom(id, user, idSala){
+    set_firebase('/salas/'+idSala+'/players/'+id, user)
+    //console.log(user, idSala, id)
 
+}
 
+export function CreateRoom(uid, username) {
+  
+    // A post entry.
+    const postSala = {
+      author: username,
+      uid: uid,
+      players: [username],
+      state: 'inicio'
+    };
+  
+    // Get a key for a new Sala.
+    const newSalaKey = push(child(ref(database), 'salas')).key;
+  
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    updates['/salas/' + newSalaKey] = postSala;
+  
+    return update(ref(database), updates);
+  }
+
+export function SalasInicio (Salas){
+
+    let salas_inicio = JsonToList(Salas).map(sala=>{
+        if (sala.value.state=='inicio')  return sala
+    })
+    
+    return salas_inicio
+}
 
 
 async function update_incremento_firebase (path, valor) {
