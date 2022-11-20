@@ -1,6 +1,6 @@
 
 import { db, app } from "./firebase";
-import { getDatabase, ref, set, push, update, get, child } from "firebase/database";
+import { getDatabase, ref, set, push, update, get, child, remove } from "firebase/database";
 import { JsonToList, soma_array } from "./functions";
 import { async } from "@firebase/util";
 
@@ -42,6 +42,14 @@ export function EnterRoom(id, user, idSala){
     //console.log(user, idSala, id)
 
 }
+
+export function ExitRoom(id, user, idSala){
+    
+    set_firebase('/salas/'+idSala+'/players/'+id, null)
+    //console.log(user, idSala, id)
+
+}
+
 
 export function CreateRoom(uid, username) {
   

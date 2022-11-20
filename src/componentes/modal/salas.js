@@ -1,7 +1,7 @@
 import styles from './styles.module.css'
 import { DivAnimated, Button2 } from "./buttons";
 import { auth } from '../../lib/firebase';
-import { CreateRoom, EnterRoom } from '../../lib/baralho';
+import { CreateRoom, EnterRoom, ExitRoom } from '../../lib/baralho';
 import { JsonToList } from '../../lib/functions';
 
 
@@ -46,6 +46,7 @@ export const Salas = ({contexto}) => {
 
     const setModal = () => {contexto.setModalOpen(false)}
     const EntrarSala = () => {EnterRoom(id, name, contexto.salas[0].id)}
+    const SairSala = () => {ExitRoom(id, name, contexto.salas[0].id)}
    
 
     const Play = () => (
@@ -59,6 +60,12 @@ export const Salas = ({contexto}) => {
                     <Button2 texto={'Entrar'} CssNumero={1} onClick={EntrarSala}  />
                  </div>
     )
+
+    const Sair = () => (
+        <div className={styles.buttons}>
+                    <Button2 texto={'Sair'} CssNumero={1} onClick={SairSala}  />
+                 </div>
+    )
     
 
     return (
@@ -69,6 +76,7 @@ export const Salas = ({contexto}) => {
 
                 <Play/>
                 <Entrar/>
+                <Sair/>
         </div>
     //   
     )
