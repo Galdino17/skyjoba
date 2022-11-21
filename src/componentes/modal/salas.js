@@ -1,7 +1,7 @@
 import styles from './styles.module.css'
 import { DivAnimated, Button2 } from "./buttons";
 import { auth } from '../../lib/firebase';
-import { CreateRoom, EnterRoom, ExitRoom } from '../../lib/baralho';
+import { CreateRoom, EnterRoom } from '../../lib/baralho';
 import { JsonToList } from '../../lib/functions';
 
 
@@ -30,28 +30,18 @@ const SalasInicio = ({contexto}) => {
 
     const setModal = () => {contexto.setModalOpen(false)}
     const EntrarSala = () => {EnterRoom(id, name, contexto.salas[0].id, playersName.length)}
-    const SairSala = () => {ExitRoom(id, name, contexto.salas[0].id, presenteNaSala, playersName.indexOf(name))}
-    const DistribuirJogadores = () => {DistribuirJogadores(playersName)}
+    
    
     const Play = () => {
-        
+        if (!presenteNaSala) return(<></>)
         return ( <Button2 texto={'Play'} CssNumero={1} onClick={setModal}  /> )
         }
     
     const Entrar = () => {
-            // if (presenteNaSala) return(<></>)
+            if (presenteNaSala) return(<></>)
             return (<Button2 texto={'Entrar'} CssNumero={1} onClick={EntrarSala}  /> )
             }
 
-    const Sair = () => {
-            if (!presenteNaSala) return(<></>)
-            return (<Button2 texto={'Sair'} CssNumero={1} onClick={SairSala}  /> )
-            }
-
-    const Gerar = () => {
-        if (players.length!=3) return(<></>)
-        return (<Button2 texto={'Gerar'} CssNumero={1} onClick={DistribuirJogadores}  /> )
-        }
 
     
     if (Salas.length==0) return(<></>)
@@ -74,9 +64,7 @@ const SalasInicio = ({contexto}) => {
         }
 
         <Play/>
-        <Gerar/>
         <Entrar/>
-        <Sair/>
         
     
     </>

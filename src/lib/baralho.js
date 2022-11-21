@@ -12,7 +12,7 @@ import { JsonToList, soma_array } from "./functions";
 // Atualizar todas essas export const com valor da nova Sala
 export const database = getDatabase();
 export const root = ref(database, '/');
-export var IdSalaCriada = 'Teste'
+export var IdSalaCriada = ''
 
 // const salaAtiva = ref(database, '/salas/'+IdSalaCriada+'/Partida/monte');
 // const monte = ref(database, '/salas/'+IdSalaCriada+'/Partida/monte');
@@ -41,7 +41,7 @@ export function setCreatedRoom (id){
 */
 
 async function set_firebase (path, info, atualiza=false) {
-    if (IdSalaCriada=='Teste') return null
+    if (IdSalaCriada=='') return null
     set(ref(database, path), info)
     if (atualiza) set(ref(database, '/salas/'+IdSalaCriada+'/Partida/lastUpdated'), Date())
 }
