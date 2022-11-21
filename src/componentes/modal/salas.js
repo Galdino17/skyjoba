@@ -29,8 +29,8 @@ const SalasInicio = ({contexto}) => {
     
 
     const setModal = () => {contexto.setModalOpen(false)}
-    const EntrarSala = () => {EnterRoom(id, name, contexto.salas[0].id, !presenteNaSala)}
-    const SairSala = () => {ExitRoom(id, name, contexto.salas[0].id, presenteNaSala)}
+    const EntrarSala = () => {EnterRoom(id, name, contexto.salas[0].id, playersName.length)}
+    const SairSala = () => {ExitRoom(id, name, contexto.salas[0].id, presenteNaSala, playersName.indexOf(name))}
     const DistribuirJogadores = () => {DistribuirJogadores(playersName)}
    
     const Play = () => {

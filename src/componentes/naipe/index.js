@@ -40,7 +40,7 @@ export default function Naipe(props) {
 
     return (
         <div className={styles.naipe} >
-            <div className={tituloStyle}> Jogador {props.naipe}  </div>
+            <div className={tituloStyle}> {props.infoNaipe.nome}  </div>
 
             <div className={styles.cartas_tab}>
                 {colunas.map((cartas_coluna, index) => (

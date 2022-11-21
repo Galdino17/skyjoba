@@ -41,6 +41,7 @@ export function setCreatedRoom (id){
 */
 
 async function set_firebase (path, info, atualiza=false) {
+    if (IdSalaCriada=='Teste') return null
     set(ref(database, path), info)
     if (atualiza) set(ref(database, '/salas/'+IdSalaCriada+'/Partida/lastUpdated'), Date())
 }
@@ -68,12 +69,14 @@ async function update_incremento_firebase (path, valor) {
 ========================
 */
 
-export function EnterRoom(id, user, idSala){
+export function EnterRoom(id, user, idSala, index){
     set_firebase('/salas/'+idSala+'/players/'+id, user)
+    set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', user)
 }
 
-export function ExitRoom(id, user, idSala, inRoom){
+export function ExitRoom(id, user, idSala, inRoom, index){
     if (inRoom) set_firebase('/salas/'+idSala+'/players/'+id, null)
+    set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', 'Jogador '+index)
 }
 
 export function CreateRoom(uid, username) {
@@ -97,6 +100,7 @@ export function CreateRoom(uid, username) {
     updates['/salaAtiva'] = newSalaKey;
     update(ref(database), updates)
     SendCarsToServer(newSalaKey)
+    set_firebase('/salas/' + newSalaKey+'/Partida/jogadores/0/nome', username)
  
   }
 
@@ -136,10 +140,10 @@ export function SendCarsToServer (newSalaKey='', jogadorAtual=0, turno=[0], plac
 
     
 
-        set_firebase(caminhoRoot+'/jogadores/0', distribuirCarta(mao_1, jogador))
-        set_firebase(caminhoRoot+'/jogadores/1', distribuirCarta(mao_2, jogador))
-        set_firebase(caminhoRoot+'/jogadores/2', distribuirCarta(mao_3, jogador))
-        set_firebase(caminhoRoot+'/jogadores/3', distribuirCarta(mao_4, jogador))
+        set_firebase(caminhoRoot+'/jogadores/0', distribuirCarta(mao_1, jogador, 0))
+        set_firebase(caminhoRoot+'/jogadores/1', distribuirCarta(mao_2, jogador, 1))
+        set_firebase(caminhoRoot+'/jogadores/2', distribuirCarta(mao_3, jogador, 2))
+        set_firebase(caminhoRoot+'/jogadores/3', distribuirCarta(mao_4, jogador, 3))
         set_firebase(caminhoRoot+'/baralho', baralho)
         set_firebase(caminhoRoot+'/monte', monte)
         set_firebase(caminhoRoot+'/mao', 'vazio')
@@ -156,7 +160,7 @@ export function SendCarsToServer (newSalaKey='', jogadorAtual=0, turno=[0], plac
         
 }
 
-export function distribuirCarta (cartas, jogador) {
+export function distribuirCarta (cartas, jogador, index) {
     
     let mao = {'0':[], '1':[], '2':[], '3':[]}
 
@@ -173,6 +177,7 @@ export function distribuirCarta (cartas, jogador) {
     })
 
     jogador['cartas'] = mao
+    jogador['nome'] = 'Jogador '+index
     return jogador
 }
 

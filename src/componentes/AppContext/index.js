@@ -26,7 +26,11 @@ export const Provider_Game = ({ children }) => {
   const [modalOpen, setModalOpen] = useState(false);
   
   onValue(root, (snapshot) => {
-    if (SalaCriada){
+    if (snapshot.val().salaAtiva=="" && SalaCriada){
+          setSalaCriada(false)
+          setCreatedRoom('')
+          setSalaAtiva('')
+    } else if (SalaCriada){
       
       if (snapshot.val().salas[SalaAtiva].Partida.lastUpdated != updated) {
             setUpdated(snapshot.val().salas[SalaAtiva].Partida.lastUpdated)
@@ -39,11 +43,10 @@ export const Provider_Game = ({ children }) => {
             setSalas(salas)
           }
     } else {
-      if (!!snapshot.val().salaAtiva) {
+      if (snapshot.val().salaAtiva!='') {
           setSalaCriada(true)
           setCreatedRoom(snapshot.val().salaAtiva)
           setSalaAtiva(snapshot.val().salaAtiva)
-          console.log(snapshot.val().salaAtiva)
       }
       
     }   
