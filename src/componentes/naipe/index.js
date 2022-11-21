@@ -29,7 +29,7 @@ export default function Naipe(props) {
 
     
 
-    let titulo = (player == props.naipe) ? styles.titulo : `${styles.titulo} ${styles.titulo_atual}`
+    let titulo = (jogador_atual == props.naipe) ? styles.titulo : `${styles.titulo} ${styles.titulo_atual}`
     let placar = (jogador_atual == props.naipe) ? styles.placar : `${styles.placar} ${styles.placar_atual}`
     let placarStyle = (quantidadeViradas!=0) ? placar : `${styles.placar}  ${styles.placarFinalizado}`
     let tituloStyle = (quantidadeViradas!=0) ? titulo : `${styles.placar}  ${styles.tituloFinalizado}`

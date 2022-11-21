@@ -5,7 +5,7 @@ import { descartarColuna } from "../../lib/baralho";
 
 export default function Coluna (props){
     let cartas = props.cartas
-    let coluna = (props.player==props.naipe) ? styles.coluna : `${styles.coluna} ${styles.coluna_atual}`
+    let coluna = (props.atual==props.naipe) ? styles.coluna : `${styles.coluna} ${styles.coluna_atual}`
     if (!!props.monte) descartarColuna(cartas, props.naipe, props.coluna, props.monte)
     
 
