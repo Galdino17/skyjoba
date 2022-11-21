@@ -26,27 +26,28 @@ export const Provider_Game = ({ children }) => {
   const [modalOpen, setModalOpen] = useState(false);
   
   onValue(root, (snapshot) => {
-    if (snapshot.val().salaAtiva=="" && SalaCriada){
+    let rootVal = snapshot.val()
+    if (rootVal.salaAtiva=="" && SalaCriada){
           setSalaCriada(false)
           setCreatedRoom('')
           setSalaAtiva('')
     } else if (SalaCriada){
       
-      if (snapshot.val().salas[SalaAtiva].Partida.lastUpdated != updated) {
-            setUpdated(snapshot.val().salas[SalaAtiva].Partida.lastUpdated)
-            setInfoPartida(snapshot.val().salas[SalaAtiva].Partida) 
+      if (rootVal.salas[SalaAtiva].Partida.lastUpdated != updated) {
+            setUpdated(rootVal.salas[SalaAtiva].Partida.lastUpdated)
+            setInfoPartida(rootVal.salas[SalaAtiva].Partida) 
           } 
       
-      if (SalasInicio(snapshot.val().salas).length != qtdSala) {
-            let salas = SalasInicio(snapshot.val().salas)
+      if (SalasInicio(rootVal.salas).length != qtdSala) {
+            let salas = SalasInicio(rootVal.salas)
             setQtdSala(salas.length)
             setSalas(salas)
           }
     } else {
-      if (snapshot.val().salaAtiva!='') {
+      if (rootVal.salaAtiva!='') {
           setSalaCriada(true)
-          setCreatedRoom(snapshot.val().salaAtiva)
-          setSalaAtiva(snapshot.val().salaAtiva)
+          setCreatedRoom(rootVal.salaAtiva)
+          setSalaAtiva(rootVal.salaAtiva)
       }
       
     }   

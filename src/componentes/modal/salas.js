@@ -34,7 +34,7 @@ const SalasInicio = ({contexto}) => {
     const DistribuirJogadores = () => {DistribuirJogadores(playersName)}
    
     const Play = () => {
-        if (players.length!=4) return(<></>)
+        
         return ( <Button2 texto={'Play'} CssNumero={1} onClick={setModal}  /> )
         }
     

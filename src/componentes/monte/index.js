@@ -4,8 +4,10 @@ import { useContext, useState, useEffect } from 'react'
 import { setMao, setAcao, descartar, cavar } from "../../lib/baralho"
 import AnimationDiv from '../animation';
 import { GameContext } from '../AppContext';
+import { auth } from '../../lib/firebase';
 
 export default function Monte(props) {
+    const name = (!auth.currentUser)? '' : auth.currentUser.displayName
     const ContextoGame = useContext(GameContext) 
     const InfoPartida = ContextoGame.partida.infoPartida;
         const [cartaUltimoLixo, setUltimoCartaLixo] = useState('vazio')
@@ -33,7 +35,7 @@ export default function Monte(props) {
 
 
     const jogadorContext = ContextoGame.Jogadores;
-        jogadorContext.setJogador(jogador_atual)
+        jogadorContext.setJogador(InfoPartida[name])
         jogadorContext.setAtual(jogador_atual)
         const player = jogador_atual
         const jogadorDaVez = jogadorContext.atual

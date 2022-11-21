@@ -71,12 +71,14 @@ async function update_incremento_firebase (path, valor) {
 
 export function EnterRoom(id, user, idSala, index){
     set_firebase('/salas/'+idSala+'/players/'+id, user)
+    set_firebase('/salas/'+idSala+'/Partida/'+user, index)
     set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', user)
 }
 
 export function ExitRoom(id, user, idSala, inRoom, index){
     if (inRoom) set_firebase('/salas/'+idSala+'/players/'+id, null)
-    set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', 'Jogador '+index)
+    if (inRoom) set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', 'Jogador '+index)
+    if (inRoom) set_firebase('/salas/'+idSala+'/'+user, null)
 }
 
 export function CreateRoom(uid, username) {
@@ -100,7 +102,7 @@ export function CreateRoom(uid, username) {
     updates['/salaAtiva'] = newSalaKey;
     update(ref(database), updates)
     SendCarsToServer(newSalaKey)
-    set_firebase('/salas/' + newSalaKey+'/Partida/jogadores/0/nome', username)
+    EnterRoom(uid, username, newSalaKey, 0)
  
   }
 

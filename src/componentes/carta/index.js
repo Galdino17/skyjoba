@@ -35,6 +35,7 @@ export default function Carta (props){
     }
 
     const clickHandler = () => {
+        console.log(player, jogadorDaVez, player, naipe)
         if (player==jogadorDaVez && player==naipe){
                 if (ContextoGame.statusGlobal == 'inicio') {
                     console.log(virada)
