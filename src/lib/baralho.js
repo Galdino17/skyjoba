@@ -1,32 +1,48 @@
 
 import { db, app } from "./firebase";
-import { getDatabase, ref, set, push, update, get, child, remove } from "firebase/database";
+import { getDatabase, ref, set, push, update, get, child } from "firebase/database";
 import { JsonToList, soma_array } from "./functions";
-import { async } from "@firebase/util";
 
 
+/* 
+========================
+      Exportações de variaveis
+========================
+*/
+// Atualizar todas essas export const com valor da nova Sala
 export const database = getDatabase();
-export const monte = ref(database, '/PartidaTeste/monte');
-export const lixo = ref(database, '/PartidaTeste/lixo');
-export const animation = ref(database, '/PartidaTeste/lastAnimation')
 export const root = ref(database, '/');
-export const partida = ref(database, '/PartidaTeste');
-export const lastUpdated = ref(database, '/PartidaTeste/lastUpdated');
-export const mao_db = ref(database, '/PartidaTeste/mao')
-export const jogador_db = ref(database, '/PartidaTeste/jogador_atual')
-export const teste = ref(database, '/PartidaTeste/Teste')
+export var IdSalaCriada = 'Teste'
+
+// const salaAtiva = ref(database, '/salas/'+IdSalaCriada+'/Partida/monte');
+// const monte = ref(database, '/salas/'+IdSalaCriada+'/Partida/monte');
+// const lixo = ref(database, '/salas/'+IdSalaCriada+'/Partida/lixo');
+// const animation = ref(database, '/salas/'+IdSalaCriada+'/Partida/lastAnimation')
+
+// const partida = ref(database, '/salas/'+IdSalaCriada+'/Partida');
+// const lastUpdated = ref(database, '/salas/'+IdSalaCriada+'/Partida/lastUpdated');
+// const mao_db = ref(database, '/salas/'+IdSalaCriada+'/Partida/mao')
+// const jogador_db = ref(database, '/salas/'+IdSalaCriada+'/Partida/jogador_atual')
+// const teste = ref(database, '/salas/'+IdSalaCriada+'/Partida/Teste')
+
+export function getCreatedRoom (){
+    return IdSalaCriada
+}
+
+export function setCreatedRoom (id){
+    IdSalaCriada = id
+}
 
 
-
-
-
+/* 
+========================
+      Operações básicas do Firebase
+========================
+*/
 
 async function set_firebase (path, info, atualiza=false) {
-    
     set(ref(database, path), info)
-    // Só atualizar lastUpdate com mudança de ação
-    if (atualiza) set(ref(database, '/PartidaTeste/lastUpdated'), Date())
-
+    if (atualiza) set(ref(database, '/salas/'+IdSalaCriada+'/Partida/lastUpdated'), Date())
 }
 
 export async function get_firebase (path) {
@@ -34,52 +50,7 @@ export async function get_firebase (path) {
     let retorno
     await get(caminho).then((snapshot) => retorno = snapshot.val())
     return retorno
-
 }
-
-export function EnterRoom(id, user, idSala){
-    set_firebase('/salas/'+idSala+'/players/'+id, user)
-    //console.log(user, idSala, id)
-
-}
-
-export function ExitRoom(id, user, idSala){
-    
-    set_firebase('/salas/'+idSala+'/players/'+id, null)
-    //console.log(user, idSala, id)
-
-}
-
-
-export function CreateRoom(uid, username) {
-  
-    // A post entry.
-    const postSala = {
-      author: username,
-      uid: uid,
-      players: [username],
-      state: 'inicio'
-    };
-  
-    // Get a key for a new Sala.
-    const newSalaKey = push(child(ref(database), 'salas')).key;
-  
-    // Write the new post's data simultaneously in the posts list and the user's post list.
-    const updates = {};
-    updates['/salas/' + newSalaKey] = postSala;
-  
-    return update(ref(database), updates);
-  }
-
-export function SalasInicio (Salas){
-
-    let salas_inicio = JsonToList(Salas).map(sala=>{
-        if (sala.value.state=='inicio')  return sala
-    })
-    
-    return salas_inicio
-}
-
 
 async function update_incremento_firebase (path, valor) {
     let resultado = get_firebase(path)
@@ -91,8 +62,60 @@ async function update_incremento_firebase (path, valor) {
 
 }
 
-export function SendCarsToServer (jogadorAtual=0, turno=[0], placares=[0], timeOut=0) {
-        
+/* 
+========================
+      Operações referentes as Salas
+========================
+*/
+
+export function EnterRoom(id, user, idSala){
+    set_firebase('/salas/'+idSala+'/players/'+id, user)
+}
+
+export function ExitRoom(id, user, idSala, inRoom){
+    if (inRoom) set_firebase('/salas/'+idSala+'/players/'+id, null)
+}
+
+export function CreateRoom(uid, username) {
+    let players = {}
+    players[uid] = username
+
+    // A post entry.
+    const postSala = {
+      author: username,
+      uid: uid,
+      players: players,
+      state: 'inicio'
+    };
+  
+    // Get a key for a new Sala.
+    const newSalaKey = push(child(ref(database), 'salas')).key;
+    IdSalaCriada = newSalaKey
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    updates['/salas/' + newSalaKey] = postSala;
+    updates['/salaAtiva'] = newSalaKey;
+    update(ref(database), updates)
+    SendCarsToServer(newSalaKey)
+ 
+  }
+
+export function SalasInicio (Salas){
+    let salas_inicio = JsonToList(Salas).map(sala=>{
+        if (sala.value.state=='inicio')  return sala
+    })
+
+    return salas_inicio
+}
+
+/* 
+========================
+      Operações Feitas nos inícios de Jogo
+========================
+*/
+
+export function SendCarsToServer (newSalaKey='', jogadorAtual=0, turno=[0], placares=[0], timeOut=0) {
+        let caminhoRoot = '/salas/'+newSalaKey+'/Partida'
         let baralho = LoadCartas()
         let quantidade_cartas = [...Array(12)]
         let mao_1= []
@@ -113,21 +136,21 @@ export function SendCarsToServer (jogadorAtual=0, turno=[0], placares=[0], timeO
 
     
 
-        set_firebase('/PartidaTeste/jogadores/0', distribuirCarta(mao_1, jogador))
-        set_firebase('/PartidaTeste/jogadores/1', distribuirCarta(mao_2, jogador))
-        set_firebase('/PartidaTeste/jogadores/2', distribuirCarta(mao_3, jogador))
-        set_firebase('/PartidaTeste/jogadores/3', distribuirCarta(mao_4, jogador))
-        set_firebase('/PartidaTeste/baralho', baralho)
-        set_firebase('/PartidaTeste/monte', monte)
-        set_firebase('/PartidaTeste/mao', 'vazio')
-        set_firebase('/PartidaTeste/jogador_atual', jogadorAtual)
-        set_firebase('/PartidaTeste/monte_lixo', monte_lixo)
-        set_firebase('/PartidaTeste/lixo', lixo)
-        set_firebase('/PartidaTeste/statusGlobal', 'inicio')
-        set_firebase('/PartidaTeste/turno', turno)
+        set_firebase(caminhoRoot+'/jogadores/0', distribuirCarta(mao_1, jogador))
+        set_firebase(caminhoRoot+'/jogadores/1', distribuirCarta(mao_2, jogador))
+        set_firebase(caminhoRoot+'/jogadores/2', distribuirCarta(mao_3, jogador))
+        set_firebase(caminhoRoot+'/jogadores/3', distribuirCarta(mao_4, jogador))
+        set_firebase(caminhoRoot+'/baralho', baralho)
+        set_firebase(caminhoRoot+'/monte', monte)
+        set_firebase(caminhoRoot+'/mao', 'vazio')
+        set_firebase(caminhoRoot+'/jogador_atual', jogadorAtual)
+        set_firebase(caminhoRoot+'/monte_lixo', monte_lixo)
+        set_firebase(caminhoRoot+'/lixo', lixo)
+        set_firebase(caminhoRoot+'/statusGlobal', 'inicio')
+        set_firebase(caminhoRoot+'/turno', turno)
 
         setTimeout(() => {
-            set_firebase('/PartidaTeste/acao', 'cavar', true)
+            set_firebase(caminhoRoot+'/acao', 'cavar', true)
         }, timeOut);
         
         
@@ -137,8 +160,6 @@ export function distribuirCarta (cartas, jogador) {
     
     let mao = {'0':[], '1':[], '2':[], '3':[]}
 
-    
-    
     cartas.map((valor, index) => {
         // Para debug e teste
         //let status = (index<11) ? 'frente' : 'verso' 
@@ -155,96 +176,102 @@ export function distribuirCarta (cartas, jogador) {
     return jogador
 }
 
-export async function set_placar(jogador, valor){
+// Função não utilizada
+// export async function getBaralho (){
+//     let retorno
     
-    update_incremento_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor)
+//     const returnBaralho = ref(database, '/salas/'+IdSalaCriada+'/Partida/baralho');
+//     await get(returnBaralho).then((snapshot) => retorno = snapshot.val())
+//     return retorno
+
+// }
+
+export function LoadCartas(){
+    
+    const count_1a12 = [...Array(13)]
+    
+    let baralho = []
+    let carta = -1
+
+
+    baralho = Populate(baralho, 15, 0)
+    baralho = Populate(baralho, 5, -2)
+
+    count_1a12.map( n=> {
+        baralho = Populate(baralho, 10, carta)
+        carta = carta+1
+        if (carta == 0) carta=carta+1
+    }) 
+
+    return Embaralhar(baralho)   
 }
 
+export function Populate(baralho, quantidade, valor ){
+    
+    const range = [...Array(quantidade)]
+    range.map( n=> baralho.push(valor))
+    return baralho
+}
 
+function Embaralhar(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array
+}
+
+/* 
+========================
+      Atualização de Informações no Game
+========================
+*/
+
+// Função não utilizada
+// export async function getLastUpdated () {
+//     let lastUpdated
+//     const lastUpdated_get = ref(database, '/salas/'+IdSalaCriada+'/Partida/lastUpdated');
+//     await get(lastUpdated_get).then((snapshot) => lastUpdated = snapshot.val())
+//     return lastUpdated
+
+// }
+
+export async function set_placar(jogador, valor){  
+    update_incremento_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+jogador+'/placar_atual', valor)
+}
 
 export function set_placar_atual(jogador, valor){  
     if (typeof(jogador)!='undefined' && typeof(valor)!='undefined') {
-        set_firebase('/PartidaTeste/jogadores/'+jogador+'/placar_atual', valor)  
+        set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+jogador+'/placar_atual', valor)  
     }
      
 }
 
-export async function descartar (monte) {
-    set_firebase('/PartidaTeste/monte_lixo', monte)
-    set_firebase('/PartidaTeste/lixo', monte.at(-1))
-
-}
-
-
-
-export async function cavar (baralho) {
-    
-    let carta_cavada = baralho.pop()
-    
-    set_firebase('/PartidaTeste/monte', carta_cavada)
-    if (baralho.length<2){
-        get_firebase('/PartidaTeste/monte_lixo').then(newBaralho => {
-            let lixo_atual = newBaralho.pop()
-            let baralho = newBaralho
-            set_firebase('/PartidaTeste/baralho', baralho)
-            set_firebase('/PartidaTeste/lixo', lixo_atual)
-            
-
-
-        })
-        
-    } else set_firebase('/PartidaTeste/baralho', baralho)
-
-}
-
-
-export async function getBaralho (){
-    let retorno
-    
-    const returnBaralho = ref(database, '/PartidaTeste/baralho');
-    await get(returnBaralho).then((snapshot) => retorno = snapshot.val())
-    // get(starCountRef, (snapshot) => {
-    //       const baralho =  snapshot.val();
-    //       retorno = baralho
-    //     });
-        return retorno
-
-}
-
-export async function getLastUpdated () {
-    let lastUpdated
-    const lastUpdated_get = ref(database, '/PartidaTeste/lastUpdated');
-    await get(lastUpdated_get).then((snapshot) => lastUpdated = snapshot.val())
-    return lastUpdated
-
-}
-
-
 export function vira_carta(jogador, coluna, linha) {
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/status',  'frente')
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/status',  'frente')
    
 }
 
 export async function viraTodasCartas(jogador){
-    get_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas').then(cartas=>
+    get_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+jogador+'/cartas').then(cartas=>
         {
             var oldCartas = JSON.stringify(cartas).replaceAll("verso", "frente")
             var cartasViradas = JSON.parse(oldCartas);
-            set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/', cartasViradas)
+            set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+jogador+'/cartas/', cartasViradas)
         })
 
 }
 
 export function trocarValorDaCarta(jogador, coluna, linha, valor) {
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/status',  'frente')
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/valor',  valor)
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/status',  'frente')
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+jogador+'/cartas/'+coluna+'/'+linha+'/valor',  valor)
     setMao('vazio')
     
 
 }
 
 export function apagarColuna(jogador, coluna){
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/cartas/'+coluna, null)
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+jogador+'/cartas/'+coluna, null)
 }
 
 export function descartarColuna(cartas, jogador, coluna, monte){
@@ -265,7 +292,6 @@ export function descartarColuna(cartas, jogador, coluna, monte){
 
 }
 
-
 export async function atualizaJogadorAtual(atualJogador, Contexto, setModal){
     let proximoJogador
     
@@ -282,7 +308,7 @@ export async function atualizaJogadorAtual(atualJogador, Contexto, setModal){
     proximoJogador = atualJogador+1
 
     if (proximoJogador==4) proximoJogador=0
-    set_firebase('/PartidaTeste/jogador_atual',  proximoJogador, false)
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/jogador_atual',  proximoJogador, false)
    
     //debug
     // if (Contexto.statusGlobal=='inicio') {
@@ -323,9 +349,9 @@ export async function atualizaJogadorAtual(atualJogador, Contexto, setModal){
 }
 
 export function setTurno(){
-    get_firebase('/PartidaTeste/turno').then(turno => {
+    get_firebase('/salas/'+IdSalaCriada+'/Partida/turno').then(turno => {
         turno.push(1)
-        set_firebase('/PartidaTeste/turno', turno)
+        set_firebase('/salas/'+IdSalaCriada+'/Partida/turno', turno)
 
     })
 
@@ -333,7 +359,7 @@ export function setTurno(){
 
 export function setStatusGlobal(status) {
     
-    set_firebase('/PartidaTeste/statusGlobal', status)
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/statusGlobal', status)
     
 }
 
@@ -341,7 +367,7 @@ export async function setPlacares(quemBateu){
     let placaresReturn = []
     let duplica = false
     let valorQuemBateu = 0
-    get_firebase('/PartidaTeste').then(Contexto =>{
+    get_firebase('/salas/'+IdSalaCriada+'/Partida').then(Contexto =>{
         valorQuemBateu = Contexto.jogadores[quemBateu].placar_atual
         Contexto.jogadores.forEach((jogador, index) => {
             
@@ -364,8 +390,8 @@ export async function setPlacares(quemBateu){
 }
 
 export function setPlacaresFirebase(index, total, placares){
-    set_firebase('/PartidaTeste/jogadores/'+index+'/placar_total', total) 
-    set_firebase('/PartidaTeste/jogadores/'+index+'/placares', placares)
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+index+'/placar_total', total) 
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+index+'/placares', placares)
 }
 
 
@@ -379,10 +405,10 @@ export async function atualiza_quantidade_viradas (cartas, jogador, statusGlobal
             if (carta.status=='verso') quantidade++
         })
     })
-    set_firebase('/PartidaTeste/jogadores/'+jogador+'/viradas', quantidade)
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadores/'+jogador+'/viradas', quantidade)
     if (statusGlobal=='mid' && quantidade==0) {
         setStatusGlobal('wait')
-        set_firebase('/PartidaTeste/jogadorQueBateu', jogador)
+        set_firebase('/salas/'+IdSalaCriada+'/Partida/jogadorQueBateu', jogador)
 
     } 
     
@@ -390,12 +416,12 @@ export async function atualiza_quantidade_viradas (cartas, jogador, statusGlobal
 }
 
 export function setMao(valor, monte, ultimoLixo) {
-    set_firebase('/PartidaTeste/mao',  valor)
-    if (monte=='lixo') set_firebase('/PartidaTeste/lixo', ultimoLixo)
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/mao',  valor)
+    if (monte=='lixo') set_firebase('/salas/'+IdSalaCriada+'/Partida/lixo', ultimoLixo)
 }
 
 export function setAcao(valor) {
-    set_firebase('/PartidaTeste/acao',  valor, true)
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/acao',  valor, true)
 }
 
 export function verifica_placar_atual(jogadorDict, todasVisiveis=false) {
@@ -414,21 +440,6 @@ export function verifica_placar_atual(jogadorDict, todasVisiveis=false) {
     
 }
 
-export async function verifica_placar(jogador_n) {
-    return false
-    const jogador = ref(database, '/PartidaTeste/jogadores/'+jogador_n);
-    await get(jogador).then((snapshot) => retorno = snapshot.val())
-
-    if (array[0][0]===array[1][0] && array[0][1]=='frente' && array[1][1]=='frente'){
-        if (array[1][0]===array[2][0] && array[2][1]=='frente') {
-            return true
-        }
-    }
-    return false
-
-}
-
-
 
 export function verifica_coluna(array) {
 
@@ -441,43 +452,36 @@ export function verifica_coluna(array) {
 
 }
 
-export function fimPartida(Contexto) {
 
+/* 
+========================
+      Ações dos jogadores
+========================
+*/
+
+export async function descartar (monte) {
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/monte_lixo', monte)
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/lixo', monte.at(-1))
 
 }
 
-export function LoadCartas(){
+export async function cavar (baralho) {
     
-    const count_1a12 = [...Array(13)]
+    let carta_cavada = baralho.pop()
     
-    let baralho = []
-    let carta = -1
+    set_firebase('/salas/'+IdSalaCriada+'/Partida/monte', carta_cavada)
+    if (baralho.length<2){
+        get_firebase('/salas/'+IdSalaCriada+'/Partida/monte_lixo').then(newBaralho => {
+            let lixo_atual = newBaralho.pop()
+            let baralho = newBaralho
+            set_firebase('/salas/'+IdSalaCriada+'/Partida/baralho', baralho)
+            set_firebase('/salas/'+IdSalaCriada+'/Partida/lixo', lixo_atual)
+        })
+        
+    } else set_firebase('/salas/'+IdSalaCriada+'/Partida/baralho', baralho)
 
-
-    baralho = Populate(baralho, 15, 0)
-    baralho = Populate(baralho, 5, -2)
-
-    count_1a12.map( n=> {
-        baralho = Populate(baralho, 10, carta)
-        carta = carta+1
-        if (carta == 0) carta=carta+1
-    }) 
-
-    return Embaralhar(baralho)   
 }
 
 
-export function Populate(baralho, quantidade, valor ){
-    
-    const range = [...Array(quantidade)]
-    range.map( n=> baralho.push(valor))
-    return baralho
-}
 
-function Embaralhar(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array
-}
+

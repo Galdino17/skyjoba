@@ -19,11 +19,46 @@ const CriarSala = ({contexto}) => {
 }
 
 const SalasInicio = ({contexto}) => {
+    // Preciso mostrar isso aqui só quando eu tiver uma Sala, no Parent Salas
     const Salas = contexto.salas
+    const id = auth.currentUser.uid
+    const name = auth.currentUser.displayName
+    const players = (!contexto.salas[0])? [] : JsonToList(contexto.salas[0].value.players)
+    const playersName = players.map(player => player.value)
+    const presenteNaSala = players.map(player => player['id']).includes(id)
     
+
+    const setModal = () => {contexto.setModalOpen(false)}
+    const EntrarSala = () => {EnterRoom(id, name, contexto.salas[0].id, !presenteNaSala)}
+    const SairSala = () => {ExitRoom(id, name, contexto.salas[0].id, presenteNaSala)}
+    const DistribuirJogadores = () => {DistribuirJogadores(playersName)}
+   
+    const Play = () => {
+        if (players.length!=4) return(<></>)
+        return ( <Button2 texto={'Play'} CssNumero={1} onClick={setModal}  /> )
+        }
     
+    const Entrar = () => {
+            // if (presenteNaSala) return(<></>)
+            return (<Button2 texto={'Entrar'} CssNumero={1} onClick={EntrarSala}  /> )
+            }
+
+    const Sair = () => {
+            if (!presenteNaSala) return(<></>)
+            return (<Button2 texto={'Sair'} CssNumero={1} onClick={SairSala}  /> )
+            }
+
+    const Gerar = () => {
+        if (players.length!=3) return(<></>)
+        return (<Button2 texto={'Gerar'} CssNumero={1} onClick={DistribuirJogadores}  /> )
+        }
+
+    
+    if (Salas.length==0) return(<></>)
     return(
-        Salas.map((sala, index)=>{
+        <>
+        {Salas.map((sala, index)=>{
+
             return(
                 <>
                     <DivAnimated key={sala.id} texto={"Sala Ativa"} CssNumero={2}  spans={0} styleAdicional={styles.divAnimated}/>
@@ -35,38 +70,21 @@ const SalasInicio = ({contexto}) => {
                 </>
 
             )
-    })
+        })
+        }
+
+        <Play/>
+        <Gerar/>
+        <Entrar/>
+        <Sair/>
+        
+    
+    </>
     )
 }
 
 
 export const Salas = ({contexto}) => {
-    const id = auth.currentUser.uid
-    const name = auth.currentUser.displayName
-
-    const setModal = () => {contexto.setModalOpen(false)}
-    const EntrarSala = () => {EnterRoom(id, name, contexto.salas[0].id)}
-    const SairSala = () => {ExitRoom(id, name, contexto.salas[0].id)}
-   
-
-    const Play = () => (
-        <div className={styles.buttons}>
-                    <Button2 texto={'Play'} CssNumero={1} onClick={setModal}  />
-                 </div>
-    )
-
-    const Entrar = () => (
-        <div className={styles.buttons}>
-                    <Button2 texto={'Entrar'} CssNumero={1} onClick={EntrarSala}  />
-                 </div>
-    )
-
-    const Sair = () => (
-        <div className={styles.buttons}>
-                    <Button2 texto={'Sair'} CssNumero={1} onClick={SairSala}  />
-                 </div>
-    )
-    
 
     return (
         <div className={styles.cardGridSpace}>
@@ -74,9 +92,6 @@ export const Salas = ({contexto}) => {
                 <SalasInicio contexto={contexto}/>
                 <CriarSala contexto={contexto} />
 
-                <Play/>
-                <Entrar/>
-                <Sair/>
         </div>
     //   
     )

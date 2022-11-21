@@ -1,9 +1,7 @@
 import { createContext, useRef } from "react";
 import { useState } from "react";
 import { onValue } from "firebase/database";
-import { root, SalasInicio } from "../../lib/baralho";
-import { auth } from "../../lib/firebase";
-import { JsonToList } from "../../lib/functions";
+import { root, SalasInicio, getCreatedRoom, setCreatedRoom } from "../../lib/baralho";
 
 export const PlacarContext = createContext();
 export const JogadorContext = createContext();
@@ -18,7 +16,8 @@ export const Provider_Game = ({ children }) => {
   const [infoPartida, setInfoPartida] = useState('')
   const [salas, setSalas] = useState('')
   const [qtdSala, setQtdSala] = useState(0)
-
+  const [SalaCriada, setSalaCriada] = useState(false)
+  const [SalaAtiva, setSalaAtiva] = useState('')
 
 
   const jogadorQueBateu = useRef(0)
@@ -27,21 +26,27 @@ export const Provider_Game = ({ children }) => {
   const [modalOpen, setModalOpen] = useState(false);
   
   onValue(root, (snapshot) => {
-    
-    
-    if (snapshot.val().PartidaTeste.lastUpdated != updated) {
-
-          setUpdated(snapshot.val().PartidaTeste.lastUpdated)
-          setInfoPartida(snapshot.val().PartidaTeste) 
-        } 
-    
-    if (SalasInicio(snapshot.val().salas).length != qtdSala) {
-      let salas = SalasInicio(snapshot.val().salas)
+    if (SalaCriada){
       
-      setQtdSala(salas.length)
-
-      setSalas(salas)
-    }
+      if (snapshot.val().salas[SalaAtiva].Partida.lastUpdated != updated) {
+            setUpdated(snapshot.val().salas[SalaAtiva].Partida.lastUpdated)
+            setInfoPartida(snapshot.val().salas[SalaAtiva].Partida) 
+          } 
+      
+      if (SalasInicio(snapshot.val().salas).length != qtdSala) {
+            let salas = SalasInicio(snapshot.val().salas)
+            setQtdSala(salas.length)
+            setSalas(salas)
+          }
+    } else {
+      if (!!snapshot.val().salaAtiva) {
+          setSalaCriada(true)
+          setCreatedRoom(snapshot.val().salaAtiva)
+          setSalaAtiva(snapshot.val().salaAtiva)
+          console.log(snapshot.val().salaAtiva)
+      }
+      
+    }   
       })
   
   return <GameContext.Provider value={{ partida:{infoPartida, setInfoPartida}, locais:{}, Jogadores: { jogador, setJogador, atual, setAtual, jogadorQueBateu}, modalOpen, setModalOpen, salas, setSalas, qtdSala }}>{children}</GameContext.Provider>;
