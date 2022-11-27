@@ -16,7 +16,7 @@ export default function UserIcon(props) {
           <Text h5>
             {props.name}
           </Text>
-          <Button size="xs" rounded flat>Sair</Button>
+          <Button size="xs" rounded flat onClick={() => props.logout()}>Sair</Button>
         </div>
       </div>
     );
