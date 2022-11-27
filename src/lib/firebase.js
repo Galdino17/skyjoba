@@ -1,6 +1,7 @@
 
 import "firebase/auth";
 import "firebase/firestore";
+import Firebase from 'Firebase/app'
 
 import { initializeApp, getApps } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
@@ -51,6 +52,7 @@ export async function logar() {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
+        return user
         
         // ...
       }).catch((error) => {
@@ -115,4 +117,4 @@ export async function logar() {
 
 
 
-export {db, auth, app}
+export {db, auth, app, Firebase}

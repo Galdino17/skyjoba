@@ -1,10 +1,10 @@
-import { User, Text, Button } from "@nextui-org/react";
+import { Avatar, Text, Button } from '@chakra-ui/react'
 import styles from './styles.module.css'
 
 export default function UserIcon(props) {
     return (
       <div className={styles.user}>
-        <User
+        <Avatar
           src= {props.src}
           description={props.description}
           squared

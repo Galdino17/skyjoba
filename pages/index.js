@@ -1,19 +1,31 @@
-import {  useContext } from 'react'
+import {  useContext, useState } from 'react'
 import {  AnimatePresence } from "framer-motion";
 import UserIcon from '../src/componentes/user';
-
+import Router from "next/router";
 
 import { GameContext } from "../src/componentes/AppContext";
 import Mesa from '../src/componentes/mesa'
 import Modal from './../src/componentes/modal'
+import useFirebaseAuth from '../src/componentes/listening'
 
 import {SendCarsToServer} from '../src/lib/baralho'
 import { deslogar, logar, verificaSeLogado, CurrentInfo } from '../src/lib/firebase';
 
 
-const LogarModal = ({Logar}) => {
-
-  return (<button onClick={() => logar()}> Logar  </button>)
+const LogarModal = () => {
+  const [logado, setLogado] = useState(useFirebaseAuth())
+  const Login = () => {
+      logar()
+      .then((response) => response.json())
+      .then(data => {
+        data.then(()=> {
+          Router.push('/salas')
+        })
+        
+        return setLogado(!!data)
+      })
+  }
+  return (<button onClick={() => Login()}> Logar  </button>)
 
 }
 
