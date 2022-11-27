@@ -64,6 +64,10 @@ a {
   text-decoration: none;
 }
 
+.settings {
+  display: flex;
+  justify-content: flex-end;
+}
 
 .game {
   position: relative;

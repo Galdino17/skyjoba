@@ -43,7 +43,6 @@ return (
         
         <div>
             <Monte />
-            <h2>{ContextoGame.partida.infoPartida.statusGlobal} - {ContextoGame.Jogadores.jogador}</h2>
         </div>
 
     </div>

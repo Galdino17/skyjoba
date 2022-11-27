@@ -1,13 +1,13 @@
 import styles from './styles.module.css'
 import { DivAnimated, Button2 } from "./buttons";
-import { auth } from '../../lib/firebase';
+import { auth, CurrentInfo } from '../../lib/firebase';
 import { CreateRoom, EnterRoom } from '../../lib/baralho';
 import { JsonToList } from '../../lib/functions';
 
 
 const CriarSala = ({contexto}) => {
-    const id = auth.currentUser.uid
-    const name = auth.currentUser.displayName
+    const id = CurrentInfo('uid') //auth.currentUser.uid debug
+    const name = CurrentInfo('displayName') //auth.currentUser.displayName debug
     const onClick = () => (CreateRoom(id, name))
     
     if (contexto.qtdSala>0) return (<></>) 
@@ -21,8 +21,8 @@ const CriarSala = ({contexto}) => {
 const SalasInicio = ({contexto}) => {
     // Preciso mostrar isso aqui só quando eu tiver uma Sala, no Parent Salas
     const Salas = contexto.salas
-    const id = auth.currentUser.uid
-    const name = auth.currentUser.displayName
+    const id = CurrentInfo('uid') //auth.currentUser.uid debug
+    const name = CurrentInfo('displayName') //auth.currentUser.displayName debug
     const players = (!contexto.salas[0])? [] : JsonToList(contexto.salas[0].value.players)
     const playersName = players.map(player => player.value)
     const presenteNaSala = players.map(player => player['id']).includes(id)

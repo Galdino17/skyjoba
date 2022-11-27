@@ -4,9 +4,8 @@ import "firebase/firestore";
 
 import { initializeApp, getApps } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth"
 
-import { signInWithRedirect, getRedirectResult } from "firebase/auth";
 
 
 
@@ -29,8 +28,20 @@ const auth = getAuth(app)
 const provider = new GoogleAuthProvider();
 
 
+export function verificaSeLogado(){
+  if (!auth.currentUser) return false
+  else return true
+}
+
+export function CurrentInfo(info){
+  if (!auth.currentUser) return ''
+  else return auth.currentUser[info]
+}
 
 
+export function deslogar() {
+  signOut(auth)
+}
 
 export async function logar() {
     signInWithPopup(auth, provider)

@@ -1,0 +1,12 @@
+.user {
+    display: flex;
+    align-items: center;
+    padding: 1px;
+}
+
+.button {
+display: flex;
+flex-direction: column;
+margin: 0;
+padding: 0;
+}

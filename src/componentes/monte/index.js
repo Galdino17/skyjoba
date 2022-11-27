@@ -4,10 +4,10 @@ import { useContext, useState, useEffect } from 'react'
 import { setMao, setAcao, descartar, cavar } from "../../lib/baralho"
 import AnimationDiv from '../animation';
 import { GameContext } from '../AppContext';
-import { auth } from '../../lib/firebase';
+import { auth, CurrentInfo } from '../../lib/firebase';
 
 export default function Monte(props) {
-    const name = (!auth.currentUser)? '' : auth.currentUser.displayName
+    const name = CurrentInfo('displayName')
     const ContextoGame = useContext(GameContext) 
     const InfoPartida = ContextoGame.partida.infoPartida;
         const [cartaUltimoLixo, setUltimoCartaLixo] = useState('vazio')
