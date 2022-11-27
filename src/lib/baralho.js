@@ -88,7 +88,7 @@ export function EnterRoom(id, user, idSala, index){
 
 export function ExitRoom(id, user, idSala, naSala, index){
     if (naSala) set_firebase('/salas/'+idSala+'/players/'+id, null)
-    if (naSala) set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', 'Jogador '+index)
+    if (naSala) set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index-1+'/nome', 'Jogador '+index)
     if (naSala) set_firebase('/salas/'+idSala+'/Partida/'+user, null)
 }
 
