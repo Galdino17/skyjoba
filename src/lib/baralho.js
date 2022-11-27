@@ -70,26 +70,38 @@ async function update_incremento_firebase (path, valor) {
 */
 
 export function isInRoom(Contexto, uid){
-    console.log(Contexto)
+    
     if(!!Contexto && Contexto.salas.length>0) {
         if (!Contexto.salas[0].value.players[uid]) return false
         else return true
     }
-    
-    
+
+}
+
+export function defineIndex(Contexto, name){
+    if(!!Contexto) {
+        if (!Contexto.salas[0].value.Partida[name]) return Contexto.salas[0].value.Partida.DispIndex
+        else return [Contexto.salas[0].value.Partida[name], Contexto.salas[0].value.Partida.DispIndex]
+    }
 
 }
 
 export function EnterRoom(id, user, idSala, index){
+    let indice = index.pop()
+    if (index.length==0) index.push(-1)
     set_firebase('/salas/'+idSala+'/players/'+id, user)
-    set_firebase('/salas/'+idSala+'/Partida/'+user, index)
-    set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', user)
+    set_firebase('/salas/'+idSala+'/Partida/'+user, indice)
+    set_firebase('/salas/'+idSala+'/Partida/jogadores/'+indice+'/nome', user)
+    set_firebase('/salas/'+idSala+'/Partida/DispIndex', index)
 }
 
 export function ExitRoom(id, user, idSala, naSala, index){
+    let indice = index[0]
+    let DispIndex = (index[1][0]==-1) ? DispIndex=[indice] : index[1].push(indice)
     if (naSala) set_firebase('/salas/'+idSala+'/players/'+id, null)
-    if (naSala) set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index-1+'/nome', 'Jogador '+index)
+    if (naSala) set_firebase('/salas/'+idSala+'/Partida/jogadores/'+indice-1+'/nome', 'Jogador '+indice)
     if (naSala) set_firebase('/salas/'+idSala+'/Partida/'+user, null)
+    if (naSala) set_firebase('/salas/'+idSala+'/Partida/DispIndex', DispIndex)
 }
 
 export function CreateRoom(uid, username) {
@@ -113,7 +125,7 @@ export function CreateRoom(uid, username) {
     updates['/salaAtiva'] = newSalaKey;
     update(ref(database), updates)
     SendCarsToServer(newSalaKey)
-    EnterRoom(uid, username, newSalaKey, 0)
+    EnterRoom(uid, username, newSalaKey, [0,1,2,3])
  
   }
 
@@ -165,6 +177,7 @@ export function SendCarsToServer (newSalaKey='', jogadorAtual=0, turno=[0], plac
         set_firebase(caminhoRoot+'/lixo', lixo)
         set_firebase(caminhoRoot+'/statusGlobal', 'inicio')
         set_firebase(caminhoRoot+'/turno', turno)
+        set_firebase(caminhoRoot+'/DispIndex', [0,1,2,3])
 
         setTimeout(() => {
             set_firebase(caminhoRoot+'/acao', 'cavar', true)

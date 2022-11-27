@@ -1,7 +1,7 @@
 import styles from './styles.module.css'
 import { DivAnimated, Button2 } from "./buttons";
 import { auth, CurrentInfo } from '../../lib/firebase';
-import { CreateRoom, EnterRoom, isInRoom, ExitRoom } from '../../lib/baralho';
+import { CreateRoom, EnterRoom, isInRoom, ExitRoom, defineIndex } from '../../lib/baralho';
 import { JsonToList } from '../../lib/functions';
 
 
@@ -29,8 +29,12 @@ const SalasInicio = ({contexto}) => {
     
 
     const setModal = () => {contexto.setModalOpen(false)}
-    const EntrarSala = () => {EnterRoom(id, name, contexto.salas[0].id, playersName.length)}
-    const SairSala = () => {ExitRoom(id, name, contexto.salas[0].id, presenteNaSala, playersName.length)}
+    const EntrarSala = () => {
+        let index = defineIndex(contexto, name)
+        EnterRoom(id, name, contexto.salas[0].id, index)}
+    const SairSala = () => {
+        let index = defineIndex(contexto, name)
+        ExitRoom(id, name, contexto.salas[0].id, presenteNaSala, index)}
     
    
     const Play = () => {
