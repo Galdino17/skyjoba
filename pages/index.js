@@ -6,8 +6,9 @@ import { GameContext } from "../src/componentes/AppContext";
 import Mesa from '../src/componentes/mesa'
 import Modal from './../src/componentes/modal'
 
-import { deslogar, logar, verificaSeLogado, CurrentInfo } from '../src/lib/firebase';
+import { logar, verificaSeLogado, CurrentInfo } from '../src/lib/firebase';
 import  Router  from 'next/router';
+import { isInRoom } from '../src/lib/baralho';
 
 const LogarModal = () => {
   const logado = () => {
@@ -37,7 +38,10 @@ export default function Home() {
     const setModalOpen = ContextoGame.setModalOpen
     const Logado = verificaSeLogado()
     
-
+  const ChangeModal = () => {
+    if (modalOpen) setModalOpen(false)
+    else setModalOpen(true)
+  }
   const close = () => setModalOpen(false);
   const open = () => setModalOpen(true);
 
@@ -51,12 +55,13 @@ export default function Home() {
 
 
   if (!Logado) return(<LogarModal/>)
+  if (!isInRoom(ContextoGame, CurrentInfo('uid'))) open()
   return (
     <>
     <div>
     
     <div className='settings'>
-      <UserIcon src={CurrentInfo('photoURL')}  name={CurrentInfo('displayName')} logout={deslogar}/>
+      <UserIcon src={CurrentInfo('photoURL')}  name={CurrentInfo('displayName')} modalFn={ChangeModal} />
     </div>
 
       <div className='game'>

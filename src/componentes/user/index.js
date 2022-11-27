@@ -1,12 +1,10 @@
 import { Avatar, Text, Button } from '@chakra-ui/react'
-import  Router  from 'next/router'
 import styles from './styles.module.css'
 
 export default function UserIcon(props) {
 
-  const desloga = () => {
-    props.logout()
-    Router.push("/")
+  const Modal = () => {
+    props.modal()
   }
 
     return (
@@ -23,7 +21,7 @@ export default function UserIcon(props) {
           <Text fontSize='lg'>
             {props.name}
           </Text>
-          <Button colorScheme='teal' variant='ghost' onClick={() => desloga()}> Sair </Button>
+          <Button colorScheme='teal' variant='ghost' onClick={() => props.modalFn()}> Salas </Button>
           
         </div>
       </div>

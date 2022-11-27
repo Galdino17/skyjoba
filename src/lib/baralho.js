@@ -69,16 +69,27 @@ async function update_incremento_firebase (path, valor) {
 ========================
 */
 
+export function isInRoom(Contexto, uid){
+    console.log(Contexto)
+    if(!!Contexto && Contexto.salas.length>0) {
+        if (!Contexto.salas[0].value.players[uid]) return false
+        else return true
+    }
+    
+    
+
+}
+
 export function EnterRoom(id, user, idSala, index){
     set_firebase('/salas/'+idSala+'/players/'+id, user)
     set_firebase('/salas/'+idSala+'/Partida/'+user, index)
     set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', user)
 }
 
-export function ExitRoom(id, user, idSala, inRoom, index){
-    if (inRoom) set_firebase('/salas/'+idSala+'/players/'+id, null)
-    if (inRoom) set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', 'Jogador '+index)
-    if (inRoom) set_firebase('/salas/'+idSala+'/'+user, null)
+export function ExitRoom(id, user, idSala, naSala, index){
+    if (naSala) set_firebase('/salas/'+idSala+'/players/'+id, null)
+    if (naSala) set_firebase('/salas/'+idSala+'/Partida/jogadores/'+index+'/nome', 'Jogador '+index)
+    if (naSala) set_firebase('/salas/'+idSala+'/Partida/'+user, null)
 }
 
 export function CreateRoom(uid, username) {

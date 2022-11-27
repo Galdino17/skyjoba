@@ -1,7 +1,7 @@
 import styles from './styles.module.css'
 import { DivAnimated, Button2 } from "./buttons";
 import { auth, CurrentInfo } from '../../lib/firebase';
-import { CreateRoom, EnterRoom } from '../../lib/baralho';
+import { CreateRoom, EnterRoom, isInRoom, ExitRoom } from '../../lib/baralho';
 import { JsonToList } from '../../lib/functions';
 
 
@@ -25,11 +25,12 @@ const SalasInicio = ({contexto}) => {
     const name = CurrentInfo('displayName') //auth.currentUser.displayName debug
     const players = (!contexto.salas[0])? [] : JsonToList(contexto.salas[0].value.players)
     const playersName = players.map(player => player.value)
-    const presenteNaSala = players.map(player => player['id']).includes(id)
+    const presenteNaSala = isInRoom(contexto, id)
     
 
     const setModal = () => {contexto.setModalOpen(false)}
     const EntrarSala = () => {EnterRoom(id, name, contexto.salas[0].id, playersName.length)}
+    const SairSala = () => {ExitRoom(id, name, contexto.salas[0].id, presenteNaSala, playersName.length)}
     
    
     const Play = () => {
@@ -38,7 +39,7 @@ const SalasInicio = ({contexto}) => {
         }
     
     const Entrar = () => {
-            if (presenteNaSala) return(<></>)
+            if (presenteNaSala) return(<Button2 texto={'Sair'} CssNumero={1} onClick={SairSala}  /> )
             return (<Button2 texto={'Entrar'} CssNumero={1} onClick={EntrarSala}  /> )
             }
 
