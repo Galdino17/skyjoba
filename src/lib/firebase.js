@@ -1,7 +1,5 @@
 
 import "firebase/auth";
-import "firebase/firestore";
-import Firebase from 'Firebase/app'
 
 import { initializeApp, getApps } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
@@ -41,6 +39,7 @@ export function CurrentInfo(info){
 
 
 export function deslogar() {
+  
   signOut(auth)
 }
 
@@ -117,4 +116,4 @@ export async function logar() {
 
 
 
-export {db, auth, app, Firebase}
+export {db, auth, app}

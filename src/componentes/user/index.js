@@ -1,7 +1,14 @@
 import { Avatar, Text, Button } from '@chakra-ui/react'
+import  Router  from 'next/router'
 import styles from './styles.module.css'
 
 export default function UserIcon(props) {
+
+  const desloga = () => {
+    props.logout()
+    Router.push("/")
+  }
+
     return (
       <div className={styles.user}>
         <Avatar
@@ -13,10 +20,11 @@ export default function UserIcon(props) {
           text='Foto aqui'
         />
         <div className={styles.button}>
-          <Text h5>
+          <Text fontSize='lg'>
             {props.name}
           </Text>
-          <Button size="xs" rounded flat onClick={() => props.logout()}>Sair</Button>
+          <Button colorScheme='teal' variant='ghost' onClick={() => desloga()}> Sair </Button>
+          
         </div>
       </div>
     );

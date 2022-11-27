@@ -1,31 +1,29 @@
 import {  useContext, useState } from 'react'
 import {  AnimatePresence } from "framer-motion";
 import UserIcon from '../src/componentes/user';
-import Router from "next/router";
 
 import { GameContext } from "../src/componentes/AppContext";
 import Mesa from '../src/componentes/mesa'
 import Modal from './../src/componentes/modal'
-import useFirebaseAuth from '../src/componentes/listening'
 
-import {SendCarsToServer} from '../src/lib/baralho'
 import { deslogar, logar, verificaSeLogado, CurrentInfo } from '../src/lib/firebase';
-
+import  Router  from 'next/router';
 
 const LogarModal = () => {
-  const [logado, setLogado] = useState(useFirebaseAuth())
-  const Login = () => {
-      logar()
-      .then((response) => response.json())
-      .then(data => {
-        data.then(()=> {
-          Router.push('/salas')
-        })
-        
-        return setLogado(!!data)
-      })
+  const logado = () => {
+    if (typeof(window)==='undefined') {
+      clearInterval(refreshIntervalId)
+    }
+    if (verificaSeLogado()) {
+        Router.push('/')
+        clearInterval(refreshIntervalId)
+    } 
+
   }
-  return (<button onClick={() => Login()}> Logar  </button>)
+  var refreshIntervalId = setInterval(logado, 500);
+  
+  
+  return (<button onClick={() => logar()}> Logar  </button>)
 
 }
 
@@ -38,7 +36,7 @@ export default function Home() {
     const modalOpen = ContextoGame.modalOpen
     const setModalOpen = ContextoGame.setModalOpen
     const Logado = verificaSeLogado()
-
+    
 
   const close = () => setModalOpen(false);
   const open = () => setModalOpen(true);
@@ -55,12 +53,13 @@ export default function Home() {
   if (!Logado) return(<LogarModal/>)
   return (
     <>
+    <div>
     
     <div className='settings'>
       <UserIcon src={CurrentInfo('photoURL')}  name={CurrentInfo('displayName')} logout={deslogar}/>
     </div>
 
-    <div className='game'>
+      <div className='game'>
           <Mesa/>
       </div>
 
@@ -71,9 +70,7 @@ export default function Home() {
       </div>
 
       
-
-     
-
+    </div>
     </>
   )
     
